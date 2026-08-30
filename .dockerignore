@@ -1,0 +1,14 @@
+node_modules
+dist
+build
+.git
+.cache
+.env*
+.vite
+*.tsbuildinfo
+*-debug.log
+logs
+*.log
+*.tmp
+.opencode-skills
+.plugins
