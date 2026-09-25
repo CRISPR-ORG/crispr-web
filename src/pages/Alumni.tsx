@@ -68,7 +68,7 @@ export default function Alumni() {
                   {/* Quote */}
                   <blockquote
                     className="mb-10 max-w-xl pl-6 md:pl-8"
-                    style={{ borderLeft: "1px solid rgba(0,255,65,0.45)" }}
+                    style={{ borderLeft: "2px solid #19A88F" }}
                   >
                     <p
                       className="font-light leading-[1.45] tracking-[-0.02em] text-[color:var(--color-fg)]"

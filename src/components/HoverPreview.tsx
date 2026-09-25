@@ -16,7 +16,11 @@ export function useHoverPreview() {
   return { preview, setPreview }
 }
 
-export default function HoverPreview({ preview }: { preview: PreviewState | null }) {
+export default function HoverPreview({
+  preview,
+}: {
+  preview: PreviewState | null
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
 
@@ -68,7 +72,11 @@ export default function HoverPreview({ preview }: { preview: PreviewState | null
   if (!mounted) return null
 
   return createPortal(
-    <div ref={ref} className={`hover-preview ${preview ? "is-on" : ""}`} aria-hidden>
+    <div
+      ref={ref}
+      className={`hover-preview ${preview ? "is-on" : ""}`}
+      aria-hidden
+    >
       <div
         className="relative overflow-hidden"
         style={{

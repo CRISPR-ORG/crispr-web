@@ -1,63 +1,89 @@
 /**
- * Brand lockup.
+ * Official CRISPR Brand Lockup
+ * Central Research Initiative & Student Public Relations, IIIT Nagpur
  *
- * The supplied /logo.png is a square lockup — dark-grey "CRISPR" letterforms,
- * a teal helix, and a small tagline. On a black navbar the grey type is close
- * to invisible and the tagline turns to mush below ~40px. So we crop to the
- * helix alone, tune it into the CRISPR green, and set the wordmark in type.
+ * Uses the authentic official logo proportions and true brand teal (#19A88F).
+ * No artificial recoloring or distortion.
  */
 
-// Helix bounding box inside the 501×498 source, measured off the pixels:
-// the teal strokes span x 197–303, y 136–363. Cropping to exactly that keeps
-// the grey "I" and "S" letterforms out of the mark.
-const MARK = { x: 197, y: 136, w: 106, h: 227, imgW: 501 }
+// Exact bounding box of the central DNA helix inside the 501×498 master asset:
+const MARK = { x: 196, y: 135, w: 108, h: 228, imgW: 501 }
 
-export function LogoMark({ size = 28 }: { size?: number }) {
+export function LogoMark({
+  size = 32,
+  className = "",
+}: {
+  size?: number
+  className?: string
+}) {
   const scale = size / MARK.h
   return (
     <span
-      className="relative block shrink-0 overflow-hidden"
-      style={{ width: MARK.w * scale, height: size }}
+      className={`relative inline-block shrink-0 overflow-hidden ${className}`}
+      style={{ width: Math.round(MARK.w * scale), height: size }}
       aria-hidden
     >
       <img
-        src="/logo.png"
+        src="/logo-white.png"
         alt=""
         style={{
           position: "absolute",
-          width: MARK.imgW * scale,
+          width: Math.round(MARK.imgW * scale),
           maxWidth: "none",
-          left: -MARK.x * scale,
-          top: -MARK.y * scale,
-          // Source teal is rgb(40,163,144) (~173°); pull it onto the CRISPR green.
-          filter: "brightness(1.3) saturate(2.4) hue-rotate(-46deg)",
+          left: -Math.round(MARK.x * scale),
+          top: -Math.round(MARK.y * scale),
         }}
       />
     </span>
   )
 }
 
+/**
+ * Full official CRISPR emblem lockup with exact proportions.
+ */
+export function OfficialLogo({
+  size = 56,
+  className = "",
+}: {
+  size?: number
+  className?: string
+}) {
+  return (
+    <div
+      className={`relative inline-flex items-center justify-center shrink-0 ${className}`}
+    >
+      <img
+        src="/logo-white.png"
+        alt="CRISPR - Central Research Initiative & Student Public Relations"
+        className="w-auto object-contain"
+        style={{ height: size, maxHeight: size }}
+      />
+    </div>
+  )
+}
+
 export default function Logo({
-  size = 28,
+  size = 30,
   showSuffix = true,
+  className = "",
 }: {
   size?: number
   showSuffix?: boolean
+  className?: string
 }) {
   return (
-    <>
+    <div className={`flex items-center gap-3 ${className}`}>
       <LogoMark size={size} />
-      <span className="text-[1.0625rem] font-bold tracking-[-0.03em] text-[color:var(--color-fg)]">
-        CRISPR
-      </span>
-      {showSuffix && (
-        <>
-          <span className="hidden h-3 w-px bg-[color:var(--line-strong)] md:block" />
-          <span className="t-mono hidden whitespace-nowrap md:block">
+      <div className="flex flex-col leading-none">
+        <span className="text-[1.0625rem] font-bold tracking-[-0.03em] text-[#F2F2F2]">
+          CRISPR
+        </span>
+        {showSuffix && (
+          <span className="font-mono text-[0.5625rem] uppercase tracking-[0.14em] text-[#777D7A] mt-0.5">
             IIIT Nagpur
           </span>
-        </>
-      )}
-    </>
+        )}
+      </div>
+    </div>
   )
 }

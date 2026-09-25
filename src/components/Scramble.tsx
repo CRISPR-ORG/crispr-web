@@ -63,9 +63,9 @@ export default function Scramble({
           setSettled(true)
           return
         }
-        raf = window.setTimeout(() => {
+        raf = (window.setTimeout(() => {
           raf = requestAnimationFrame(tick)
-        }, speed) as unknown as number
+        }, speed) as unknown as number)
       }
 
       tick()
