@@ -17,7 +17,6 @@ export const alumni: Alumni[] = [
     id: "krishna-chaudhari",
     name: "Krishna Chaudhari",
     role: "Founder of CRISPR",
-    batch: "Batch of 2025",
     current: "MBA Student, IIM Calcutta",
     quote:
       "Founding CRISPR taught me to build and lead, turning ideas into solutions used by over 1800 students at IIITN.",
@@ -35,7 +34,6 @@ export const alumni: Alumni[] = [
     id: "aayush-jain",
     name: "Aayush Jain",
     role: "Past Lead",
-    batch: "Batch of 2026",
     current: "AI & CV Intern, BigVision LLC",
     quote:
       "CRISPR provided a foundation to explore diverse technical fields, from business analytics at Zepto to AI at BigVision.",
@@ -53,7 +51,6 @@ export const alumni: Alumni[] = [
     id: "prakhar-shukla",
     name: "Prakhar Shukla",
     role: "Past Co-Lead & Mentor",
-    batch: "Batch of 2026",
     current: "Final Year Student, IIIT Nagpur",
     quote:
       "At CRISPR, we aimed to revolutionize the college experience through technology, literally editing the technical and cultural DNA of our campus.",
@@ -71,7 +68,6 @@ export const alumni: Alumni[] = [
     id: "ayush-karapagale",
     name: "Ayush Karapagale",
     role: "Past Head of Product",
-    batch: "Batch of 2026",
     current: "Physical Design Engineer Intern, Intel",
     quote:
       "The hands-on project experience, from robotics to RISC-V CPU design, is invaluable for tackling complex engineering challenges.",
