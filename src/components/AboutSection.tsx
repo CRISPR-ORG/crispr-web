@@ -179,12 +179,12 @@ export default function AboutSection() {
             <div className="p-4 bg-[#0A0F0D] border border-[#15221c] flex items-center justify-between text-xs font-mono">
               <span className="text-[#68736E]">Organization Source:</span>
               <a
-                href="https://github.com/crispr-iiitn"
+                href="https://github.com/CRISPR-ORG"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#19A88F] hover:text-[#35D6B3] transition-colors"
               >
-                github.com/crispr-iiitn ↗
+                github.com/CRISPR-ORG ↗
               </a>
             </div>
           </div>

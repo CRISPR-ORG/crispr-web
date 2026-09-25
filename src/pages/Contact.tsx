@@ -15,8 +15,8 @@ const socials = [
   },
   {
     label: "GitHub",
-    handle: "crispr-iiitn",
-    href: "https://github.com/crispr-iiitn",
+    handle: "CRISPR-ORG",
+    href: "https://github.com/CRISPR-ORG",
   },
   {
     label: "YouTube",

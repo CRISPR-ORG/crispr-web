@@ -110,7 +110,7 @@ export default function Team() {
                   <dl className="mt-9 grid grid-cols-2 gap-x-8 gap-y-5 max-w-md">
                     {([
                       ["Stack", "React · Node · Python · Postgres"],
-                      ["Repos", "https://github.com/crispr-iiitn"],
+                      ["Repos", "https://github.com/CRISPR-ORG"],
                       ["Active builds", "04"],
                       ["Reviewers", "03"],
                     ] as [string, string][]).map(([k, v]) => (

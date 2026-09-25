@@ -117,6 +117,7 @@ export function DnaProvider({ children }: { children: React.ReactNode }) {
       window.removeEventListener("scroll", handleScroll)
       if (rafId.current !== null) {
         cancelAnimationFrame(rafId.current)
+        rafId.current = null
       }
     }
   }, [])

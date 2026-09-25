@@ -38,7 +38,7 @@ const GATEWAY_SERVICES: GatewayService[] = [
     code: "SVC_02",
     category: "SECURITY UTILITY",
     actionLabel: "Get Chrome Extension",
-    url: "https://github.com/crispr-iiitn",
+    url: "https://github.com/CRISPR-ORG",
     external: true,
     description:
       "A client-side Chrome extension automating campus network captive portal login with zero-knowledge AES local storage. Eliminates daily login timeouts.",
@@ -109,11 +109,11 @@ const GATEWAY_SERVICES: GatewayService[] = [
     code: "SVC_07",
     category: "OPEN SOURCE ORG",
     actionLabel: "Visit GitHub Organization",
-    url: "https://github.com/crispr-iiitn",
+    url: "https://github.com/CRISPR-ORG",
     external: true,
     description:
       "The official open-source repository containing source code for campus utilities, web applications, and experimental algorithms.",
-    protocol: "git://github.com/crispr-iiitn",
+    protocol: "git://github.com/CRISPR-ORG",
     accessGuide:
       "Pull requests and issue reports welcomed across all public projects.",
     status: "ONLINE",

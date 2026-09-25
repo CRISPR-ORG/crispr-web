@@ -17,13 +17,13 @@ const SECTIONS = [
 const SERVICES = [
   { href: "https://crispr.iiitn.ac.in/", label: "FTP Server (Campus LAN)" },
   {
-    href: "https://github.com/crispr-iiitn",
+    href: "https://github.com/CRISPR-ORG",
     label: "AuthBahn Chrome Extension",
   },
   { href: "/products", label: "Pravesh Entry-Exit System" },
   { href: "/aira", label: "AIRA Research Lab" },
   {
-    href: "https://github.com/crispr-iiitn",
+    href: "https://github.com/CRISPR-ORG",
     label: "CRISPR GitHub Organization",
   },
 ]
@@ -34,7 +34,7 @@ const SOCIALS = [
     href: "https://www.linkedin.com/company/crispr-iiit-nagpur/",
   },
   { label: "Instagram", href: "https://www.instagram.com/crispr_iiitn/" },
-  { label: "GitHub", href: "https://github.com/crispr-iiitn" },
+  { label: "GitHub", href: "https://github.com/CRISPR-ORG" },
   { label: "YouTube", href: "https://www.youtube.com/@CRISPRIIITNagpur" },
 ]
 

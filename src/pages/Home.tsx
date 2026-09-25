@@ -85,7 +85,7 @@ export default function Home() {
               <Button to="/contact" variant="primary" arrow>
                 Get in touch
               </Button>
-              <Button href="https://github.com/crispr-iiitn" variant="ghost">
+              <Button href="https://github.com/CRISPR-ORG" variant="ghost">
                 GitHub Organization ↗
               </Button>
             </div>
