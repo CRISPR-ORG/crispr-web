@@ -91,10 +91,10 @@ const GATEWAY_SERVICES: GatewayService[] = [
   },
   {
     id: "aira",
-    title: "AIRA Lab",
+    title: "AIRA",
     code: "SVC_06",
     category: "AI RESEARCH",
-    actionLabel: "Enter AIRA Lab",
+    actionLabel: "Enter AIRA",
     url: "/aira",
     description:
       "Student artificial intelligence research division focusing on 4-bit/8-bit local model quantization, RAG evaluation, and AST static analysis.",

@@ -7,6 +7,9 @@ import Events from "./pages/Events"
 import Alumni from "./pages/Alumni"
 import Aira from "./pages/Aira"
 import Contact from "./pages/Contact"
+import AuthBahn from "./pages/AuthBahn"
+import Badal from "./pages/Badal"
+import FtpUpload from "./pages/FtpUpload"
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +23,9 @@ export const router = createBrowserRouter([
       { path: "alumni", Component: Alumni },
       { path: "aira", Component: Aira },
       { path: "contact", Component: Contact },
+      { path: "authbahn", Component: AuthBahn },
+      { path: "badal", Component: Badal },
+      { path: "ftp-upload", Component: FtpUpload },
     ],
   },
 ])

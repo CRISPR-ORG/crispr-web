@@ -14,16 +14,30 @@ export interface EventItem {
 
 export const events: EventItem[] = [
   {
+    id: "demo-days-2026",
+    name: "Demo Days 2026",
+    type: "Showcase",
+    date: "2026",
+    year: "2026",
+    location: "IIIT Nagpur",
+    status: "Archived",
+    description:
+      "The 2026 edition of CRISPR's recurring showcase series — members brought unfinished work in front of the club, shipped it live, and took the feedback on stage.",
+    highlights: ["Monthly cadence", "Open to all members", "Live feedback"],
+    image: "/events/demoDays2026.jpeg",
+    num: "00",
+  },
+  {
     id: "server-marathon",
     name: "Server Marathon",
     type: "Competition",
     date: "Nov 2025",
     year: "2025",
     location: "CRISPR Server",
-    status: "Live",
+    status: "Archived",
     description:
       "A high-intensity server management and moderation challenge run entirely inside the CRISPR Server — the fastest route to becoming a moderator.",
-    highlights: ["Moderator selection", "Live leaderboard", "Running now"],
+    highlights: ["Moderator selection", "Live leaderboard", "Concluded"],
     image: "/events/servermarthon.jpeg",
     num: "01",
   },
@@ -34,9 +48,9 @@ export const events: EventItem[] = [
     date: "Dec 2025",
     year: "2025",
     location: "IIIT Nagpur",
-    status: "Upcoming",
+    status: "Archived",
     description:
-      "A two-stage AI challenge where teams ship real solutions on frontier models — from problem framing through to a working demo.",
+      "A two-stage AI challenge where teams shipped real solutions on frontier models — from problem framing through to a working demo.",
     highlights: ["Two stages", "Frontier models", "Team event"],
     image: "/events/claudesolvathon.jpeg",
     num: "02",
@@ -48,7 +62,7 @@ export const events: EventItem[] = [
     date: "Nov 2025",
     year: "2025",
     location: "IIIT Nagpur",
-    status: "Registration Open",
+    status: "Archived",
     description:
       "A machine learning and data science hackathon built around real analytical problems, judged on both modelling rigour and communication.",
     highlights: ["ML & data science", "Real datasets", "Industry judging"],
@@ -62,7 +76,7 @@ export const events: EventItem[] = [
     date: "Ongoing",
     year: "2025",
     location: "IIIT Nagpur",
-    status: "Registration Open",
+    status: "Archived",
     description:
       "A recurring series where members put unfinished work in front of the club — ship something, show it, take the feedback.",
     highlights: ["Monthly cadence", "Open to all members", "Live feedback"],

@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router"
 import { OfficialLogo } from "./Logo"
-import { useDna, SectionId } from "../context/DnaContext"
+import { useDna } from "../context/DnaContext"
 
 interface NavLinkItem {
-  id: SectionId
+  id: string
   label: string
   anchor: string
   route: string
   isCta?: boolean
+  external?: boolean
+  /** Internal standalone route (e.g. /authbahn), not a same-page scroll anchor. */
+  page?: boolean
+  /** Visually distinct pill treatment (currently used for AIRA). */
+  highlight?: boolean
 }
 
 const NAV_ITEMS: NavLinkItem[] = [
@@ -19,12 +24,30 @@ const NAV_ITEMS: NavLinkItem[] = [
     route: "/#techpulse",
   },
   { id: "events", label: "Events", anchor: "events", route: "/#events" },
+  { id: "authbahn", label: "AuthBahn", anchor: "", route: "/authbahn", page: true },
+  { id: "badal", label: "Badal_connect", anchor: "", route: "/badal", page: true },
+  {
+    id: "ftp-upload",
+    label: "FTP Upload",
+    anchor: "",
+    route: "/ftp-upload",
+    page: true,
+  },
+  {
+    id: "aira",
+    label: "AIRA",
+    anchor: "",
+    route: "/aira",
+    page: true,
+    highlight: true,
+  },
   {
     id: "access",
-    label: "Access",
+    label: "FTP Server",
     anchor: "access",
-    route: "/#access",
+    route: "https://crispr.iiitn.ac.in/ftp/login",
     isCta: true,
+    external: true,
   },
 ]
 
@@ -93,15 +116,79 @@ export default function Navbar() {
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.id && pathname === "/"
 
-              if (item.isCta) {
+              if (item.highlight) {
+                const isPageActive = pathname === item.route
                 return (
+                  <Link
+                    key={item.label}
+                    to={item.route}
+                    className={`flex items-center gap-1.5 px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider border transition-colors cursor-pointer ${
+                      isPageActive
+                        ? "bg-[#B98CFF]/15 text-[#C9A8FF] border-[#B98CFF]/70"
+                        : "text-[#C9A8FF] border-[#B98CFF]/30 hover:bg-[#B98CFF]/10 hover:border-[#B98CFF]/70"
+                    }`}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#B98CFF] animate-pulse" />
+                    <span>{item.label}</span>
+                  </Link>
+                )
+              }
+
+              if (item.isCta) {
+                const ctaClassName =
+                  "px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-wider text-[#050706] bg-[#19A88F] hover:bg-[#35D6B3] font-semibold transition-colors cursor-pointer ml-2"
+                return item.external ? (
+                  <a
+                    key={item.label}
+                    href={item.route}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={ctaClassName}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
                   <button
                     key={item.label}
                     onClick={() => handleNavClick(item)}
-                    className="px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-wider text-[#050706] bg-[#19A88F] hover:bg-[#35D6B3] font-semibold transition-colors cursor-pointer ml-2"
+                    className={ctaClassName}
                   >
-                    CRISPR Access
+                    {item.label}
                   </button>
+                )
+              }
+
+              if (item.page) {
+                const isPageActive = pathname === item.route
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.route}
+                    className={`relative font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer py-1 ${
+                      isPageActive
+                        ? "text-[#F2F4F2] font-semibold"
+                        : "text-[#68736E] hover:text-[#A5AEA9]"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {isPageActive && (
+                      <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#19A88F]" />
+                    )}
+                  </Link>
+                )
+              }
+
+              if (item.external) {
+                return (
+                  <a
+                    key={item.label}
+                    href={item.route}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer py-1 text-[#68736E] hover:text-[#A5AEA9]"
+                  >
+                    {item.label}
+                  </a>
                 )
               }
 
@@ -147,21 +234,56 @@ export default function Navbar() {
             <ul className="space-y-4">
               {NAV_ITEMS.map((item) => {
                 const isActive = activeSection === item.id
+                const itemClassName = `text-xl font-bold tracking-tight uppercase flex items-center justify-between w-full text-left cursor-pointer ${
+                  isActive
+                    ? "text-[#35D6B3]"
+                    : "text-[#A5AEA9] hover:text-[#F2F4F2]"
+                }`
                 return (
                   <li key={item.label}>
-                    <button
-                      onClick={() => handleNavClick(item)}
-                      className={`text-xl font-bold tracking-tight uppercase flex items-center justify-between w-full text-left cursor-pointer ${
-                        isActive
-                          ? "text-[#35D6B3]"
-                          : "text-[#A5AEA9] hover:text-[#F2F4F2]"
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                      <span className="font-mono text-xs text-[#68736E]">
-                        {isActive ? "●" : "→"}
-                      </span>
-                    </button>
+                    {item.highlight ? (
+                      <Link
+                        to={item.route}
+                        className="text-xl font-bold tracking-tight uppercase flex items-center justify-between w-full text-left cursor-pointer text-[#C9A8FF]"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-[#B98CFF] animate-pulse" />
+                          {item.label}
+                        </span>
+                        <span className="font-mono text-xs text-[#B98CFF]">
+                          {pathname === item.route ? "●" : "→"}
+                        </span>
+                      </Link>
+                    ) : item.page ? (
+                      <Link to={item.route} className={itemClassName}>
+                        <span>{item.label}</span>
+                        <span className="font-mono text-xs text-[#68736E]">
+                          {pathname === item.route ? "●" : "→"}
+                        </span>
+                      </Link>
+                    ) : item.external ? (
+                      <a
+                        href={item.route}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={itemClassName}
+                      >
+                        <span>{item.label}</span>
+                        <span className="font-mono text-xs text-[#68736E]">
+                          ↗
+                        </span>
+                      </a>
+                    ) : (
+                      <button
+                        onClick={() => handleNavClick(item)}
+                        className={itemClassName}
+                      >
+                        <span>{item.label}</span>
+                        <span className="font-mono text-xs text-[#68736E]">
+                          {isActive ? "●" : "→"}
+                        </span>
+                      </button>
+                    )}
                   </li>
                 )
               })}

@@ -132,11 +132,11 @@ export default function EventsDemoDays() {
 
             {/* Poster thumbnail if available */}
             {selectedEvent.image && (
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden border border-[#15221c] bg-[#050706]">
+              <div className="relative h-72 sm:h-96 w-full overflow-hidden border border-[#15221c] bg-[#050706]">
                 <img
                   src={selectedEvent.image}
                   alt={selectedEvent.name}
-                  className="w-full h-full object-cover object-center opacity-85 hover:opacity-100 transition-opacity"
+                  className="w-full h-full object-contain opacity-85 hover:opacity-100 transition-opacity"
                   onError={(e) => {
                     // Fallback to placeholder if asset path is absent
                     ;(e.target as HTMLElement).style.display = "none"
