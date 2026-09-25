@@ -4,15 +4,14 @@ import { OfficialLogo } from "./Logo"
 
 const SECTIONS = [
   { to: "/#about", label: "About CRISPR" },
-  { to: "/#what-we-do", label: "What We Do" },
-  { to: "/#ecosystem", label: "CRISPR Ecosystem" },
-  { to: "/products", label: "Initiatives & Projects" },
+  { to: "/#ecosystem", label: "Living Ecosystem" },
+  { to: "/#initiatives", label: "Four Initiatives" },
   { to: "/#techpulse", label: "TechPulse Publication" },
-  { to: "/events", label: "Events & DemoDays" },
-  { to: "/team", label: "The Team" },
-  { to: "/alumni", label: "Alumni Archive" },
+  { to: "/#events", label: "Events & DemoDays" },
+  { to: "/#team", label: "The Team" },
+  { to: "/#alumni", label: "Alumni Archive" },
   { to: "/#history", label: "History Timeline" },
-  { to: "/#access", label: "CRISPR Access Gateway" },
+  { to: "/#access", label: "Access Gateway" },
 ]
 
 const SERVICES = [
@@ -21,10 +20,7 @@ const SERVICES = [
     href: "https://github.com/crispr-iiitn",
     label: "AuthBahn Chrome Extension",
   },
-  {
-    href: "https://github.com/crispr-iiitn",
-    label: "Pravesh Entry-Exit System",
-  },
+  { href: "/products", label: "Pravesh Entry-Exit System" },
   { href: "/aira", label: "AIRA Research Lab" },
   {
     href: "https://github.com/crispr-iiitn",
@@ -45,18 +41,22 @@ const SOCIALS = [
 export default function Footer() {
   const year = new Date().getFullYear()
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   return (
-    <footer className="relative bg-[#080909] border-t border-[#242826] overflow-hidden">
+    <footer className="relative bg-[#040504] border-t border-[#15221c] overflow-hidden z-20">
       <Shell className="pt-20 pb-12 md:pt-28">
         {/* Top Lockup Bar */}
-        <div className="mb-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8 border-b border-[#242826]">
+        <div className="mb-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8 border-b border-[#15221c]">
           <div className="flex items-center gap-4">
-            <OfficialLogo size={44} />
+            <OfficialLogo size={46} />
             <div>
-              <div className="text-xl font-bold tracking-tight text-[#F2F2F2]">
+              <div className="text-xl font-bold tracking-tight text-[#F2F4F2]">
                 CRISPR
               </div>
-              <div className="font-mono text-xs text-[#777D7A] mt-0.5">
+              <div className="font-mono text-xs text-[#68736E] mt-0.5">
                 Central Research Initiative & Student Public Relations · IIIT
                 Nagpur
               </div>
@@ -64,16 +64,16 @@ export default function Footer() {
           </div>
 
           <div className="font-mono text-xs text-[#19A88F] flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#19A88F] animate-pulse" />
-            <span>CRISPR MAIN NETWORK OPERATIONAL</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#19A88F]" />
+            <span>DNA UNWOUND // SYSTEM AT REST</span>
           </div>
         </div>
 
         {/* 4-Column Directory */}
-        <div className="grid-12 gap-y-12 pb-16 border-b border-[#242826]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-16 border-b border-[#15221c]">
           {/* Col 1: Sitemap */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-            <div className="font-mono text-xs uppercase tracking-[0.14em] text-[#19A88F] mb-4">
+          <div>
+            <div className="font-mono text-xs uppercase tracking-[0.16em] text-[#19A88F] mb-4 font-semibold">
               Website Index
             </div>
             <ul className="space-y-2 text-sm">
@@ -81,7 +81,7 @@ export default function Footer() {
                 <li key={item.label}>
                   <a
                     href={item.to}
-                    className="text-[#777D7A] hover:text-[#F2F2F2] transition-colors"
+                    className="text-[#68736E] hover:text-[#F2F4F2] transition-colors"
                   >
                     {item.label}
                   </a>
@@ -91,123 +91,100 @@ export default function Footer() {
           </div>
 
           {/* Col 2: Digital Gateway Services */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-            <div className="font-mono text-xs uppercase tracking-[0.14em] text-[#19A88F] mb-4">
-              Digital Gateway
+          <div>
+            <div className="font-mono text-xs uppercase tracking-[0.16em] text-[#19A88F] mb-4 font-semibold">
+              Production Gateway
             </div>
             <ul className="space-y-2 text-sm">
               {SERVICES.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
-                    target={item.href.startsWith("http") ? "_blank" : undefined}
-                    rel={
-                      item.href.startsWith("http")
-                        ? "noopener noreferrer"
-                        : undefined
-                    }
-                    className="text-[#777D7A] hover:text-[#19A88F] transition-colors flex items-center gap-1.5"
-                  >
-                    <span>{item.label}</span>
-                    <span className="text-xs text-[#19A88F]">↗</span>
-                  </a>
+                  {item.href.startsWith("http") ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#68736E] hover:text-[#F2F4F2] transition-colors"
+                    >
+                      {item.label} ↗
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      className="text-[#68736E] hover:text-[#F2F4F2] transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Col 3: Coordinates & Affiliation */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-            <div className="font-mono text-xs uppercase tracking-[0.14em] text-[#19A88F] mb-4">
-              Campus Affiliation
+          {/* Col 3: Institutional Affiliation */}
+          <div>
+            <div className="font-mono text-xs uppercase tracking-[0.16em] text-[#19A88F] mb-4 font-semibold">
+              Institution
             </div>
-            <div className="space-y-3 text-xs text-[#777D7A] leading-relaxed">
-              <p className="text-[#F2F2F2] font-semibold">
-                Indian Institute of Information Technology, Nagpur
+            <div className="space-y-3 text-sm text-[#68736E]">
+              <p>Indian Institute of Information Technology, Nagpur</p>
+              <p className="font-mono text-xs">
+                Permanent Campus, Survey No. 140,141/1 Behind Br. Sheshrao
+                Wankhade Shetkari Sahkari Soot Girni, Village - Waranga, PO -
+                Dongargaon (Butibori), Tahsil - Nagpur (Rural) - 441108
               </p>
-              <p>
-                Survey No. 140, 141/1, Waranga, Dongargaon (Butibori), Nagpur
-                441108, Maharashtra, India.
-              </p>
-              <div className="font-mono pt-2 text-[#777D7A]">
-                <div>
-                  Email:{" "}
-                  <a
-                    href="mailto:crispr@iiitn.ac.in"
-                    className="text-[#19A88F] hover:underline"
-                  >
-                    crispr@iiitn.ac.in
-                  </a>
-                </div>
-                <div>Coordinates: 21.1°N 79.0°E · IST (UTC+5:30)</div>
+              <div className="pt-2">
+                <a
+                  href="https://iiitn.ac.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs text-[#35D6B3] hover:underline"
+                >
+                  iiitn.ac.in ↗
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Col 4: Network & Socials */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-            <div className="font-mono text-xs uppercase tracking-[0.14em] text-[#19A88F] mb-4">
-              Connect & Verify
+          {/* Col 4: Community & Socials */}
+          <div>
+            <div className="font-mono text-xs uppercase tracking-[0.16em] text-[#19A88F] mb-4 font-semibold">
+              External Channels
             </div>
-            <ul className="space-y-2 text-sm mb-6">
-              {SOCIALS.map((soc) => (
-                <li key={soc.label}>
+            <ul className="space-y-2 text-sm">
+              {SOCIALS.map((s) => (
+                <li key={s.label}>
                   <a
-                    href={soc.href}
+                    href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#777D7A] hover:text-[#2ED9B8] transition-colors flex items-center justify-between"
+                    className="text-[#68736E] hover:text-[#F2F4F2] transition-colors flex items-center gap-1.5"
                   >
-                    <span>{soc.label}</span>
-                    <span className="text-[#19A88F] font-mono text-xs">→</span>
+                    <span>{s.label}</span>
+                    <span className="text-[10px] text-[#19A88F]">↗</span>
                   </a>
                 </li>
               ))}
             </ul>
 
-            <div className="p-3 bg-[#0e1010] border border-[#242826] font-mono text-[10px] text-[#777D7A] space-y-1">
-              <div className="text-[#19A88F] font-bold">SYSTEM TELEMETRY</div>
-              <div className="flex justify-between">
-                <span>Infrastructure:</span>
-                <span className="text-[#F2F2F2]">Arch Linux / bspwm</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Production Nodes:</span>
-                <span className="text-[#F2F2F2]">09 Services</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Overall Uptime:</span>
-                <span className="text-[#19A88F]">99.2%</span>
-              </div>
+            <div className="mt-8 pt-4 border-t border-[#15221c]/60">
+              <button
+                onClick={scrollToTop}
+                className="font-mono text-xs text-[#68736E] hover:text-[#35D6B3] transition-colors flex items-center gap-2 cursor-pointer"
+              >
+                <span>↑</span>
+                <span>BACK TO TOP // DNA ASCENT</span>
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Oversized Architectural Watermark */}
-        <div
-          className="relative select-none py-6 pointer-events-none"
-          aria-hidden
-        >
-          <div
-            className="w-full font-black leading-none tracking-[-0.05em] text-transparent text-center"
-            style={{
-              fontSize: "clamp(3.5rem, 16vw, 14rem)",
-              WebkitTextStroke: "1px rgba(36, 40, 38, 0.9)",
-            }}
-          >
-            CRISPR IIITN
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-[#68736E]">
+          <div>© 2022–{year} CRISPR, IIIT Nagpur. All rights reserved.</div>
+          <div className="flex items-center gap-6">
+            <span>21.1°N 79.0°E</span>
+            <span>BUILD → SHIP → LEARN</span>
           </div>
-        </div>
-
-        {/* Bottom Legal / Student Foundation line */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-[#242826] font-mono text-[11px] text-[#777D7A]">
-          <span>
-            © {year} CRISPR — Central Research Initiative & Student Public
-            Relations.
-          </span>
-          <span className="text-[#777D7A]">
-            Built with integrity by student engineers at IIIT Nagpur.
-          </span>
         </div>
       </Shell>
     </footer>

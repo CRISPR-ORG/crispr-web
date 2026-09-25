@@ -33,9 +33,9 @@ export default function AboutSection() {
                 Information Technology, Nagpur.
               </p>
               <p>
-                Founded in 2022, CRISPR operates on an uncompromising engineering
-                principle: identify systemic friction on our campus, write
-                production software to resolve it, and pass architectural
+                Founded in 2022, CRISPR operates on an uncompromising
+                engineering principle: identify systemic friction on our campus,
+                write production software to resolve it, and pass architectural
                 knowledge down to subsequent cohorts. No speculative pitch decks
                 without working prototypes.
               </p>
@@ -113,49 +113,66 @@ export default function AboutSection() {
             </div>
 
             <CodeBlock filename="crispr.manifest.ts">
-              <span className="text-[#68736E]">{"// CRISPR Official System Specification"}</span>
+              <span className="text-[#68736E]">
+                {"// CRISPR Official System Specification"}
+              </span>
               {"\n"}
               <span className="text-[#19A88F]">export const</span>{" "}
               <span className="text-[#F2F4F2]">crispr</span> = {"{"}
               {"\n"}
               {"  "}
-              <span className="text-[#35D6B3]">name</span>: <span className="text-[#9DE8D5]">&quot;CRISPR&quot;</span>,
+              <span className="text-[#35D6B3]">name</span>:{" "}
+              <span className="text-[#9DE8D5]">&quot;CRISPR&quot;</span>,{"\n"}
+              {"  "}
+              <span className="text-[#35D6B3]">fullName</span>:{" "}
+              <span className="text-[#9DE8D5]">
+                &quot;Central Research Initiative & Student Public
+                Relations&quot;
+              </span>
+              ,{"\n"}
+              {"  "}
+              <span className="text-[#35D6B3]">institution</span>:{" "}
+              <span className="text-[#9DE8D5]">
+                &quot;Indian Institute of Information Technology, Nagpur&quot;
+              </span>
+              ,{"\n"}
+              {"  "}
+              <span className="text-[#35D6B3]">established</span>:{" "}
+              <span className="text-[#F2F4F2]">2022</span>,{"\n"}
+              {"  "}
+              <span className="text-[#35D6B3]">coordinates</span>:{" "}
+              <span className="text-[#9DE8D5]">&quot;21.1°N 79.0°E&quot;</span>,
               {"\n"}
               {"  "}
-              <span className="text-[#35D6B3]">fullName</span>: <span className="text-[#9DE8D5]">&quot;Central Research Initiative & Student Public Relations&quot;</span>,
-              {"\n"}
+              <span className="text-[#35D6B3]">activeUsers</span>:{" "}
+              <span className="text-[#9DE8D5]">&quot;2,200+&quot;</span>,{"\n"}
               {"  "}
-              <span className="text-[#35D6B3]">institution</span>: <span className="text-[#9DE8D5]">&quot;Indian Institute of Information Technology, Nagpur&quot;</span>,
+              <span className="text-[#35D6B3]">subsystems</span>: [{"\n"}
+              {"    "}
+              <span className="text-[#9DE8D5]">&quot;FTP Server&quot;</span>,
               {"\n"}
-              {"  "}
-              <span className="text-[#35D6B3]">established</span>: <span className="text-[#F2F4F2]">2022</span>,
+              {"    "}
+              <span className="text-[#9DE8D5]">&quot;AuthBahn&quot;</span>,
               {"\n"}
-              {"  "}
-              <span className="text-[#35D6B3]">coordinates</span>: <span className="text-[#9DE8D5]">&quot;21.1°N 79.0°E&quot;</span>,
+              {"    "}
+              <span className="text-[#9DE8D5]">&quot;Pravesh&quot;</span>,{"\n"}
+              {"    "}
+              <span className="text-[#9DE8D5]">&quot;TechPulse&quot;</span>,
               {"\n"}
-              {"  "}
-              <span className="text-[#35D6B3]">activeUsers</span>: <span className="text-[#9DE8D5]">&quot;2,200+&quot;</span>,
+              {"    "}
+              <span className="text-[#9DE8D5]">&quot;DemoDays&quot;</span>,
               {"\n"}
-              {"  "}
-              <span className="text-[#35D6B3]">subsystems</span>: [
-              {"\n"}
-              {"    "}<span className="text-[#9DE8D5]">&quot;FTP Server&quot;</span>,
-              {"\n"}
-              {"    "}<span className="text-[#9DE8D5]">&quot;AuthBahn&quot;</span>,
-              {"\n"}
-              {"    "}<span className="text-[#9DE8D5]">&quot;Pravesh&quot;</span>,
-              {"\n"}
-              {"    "}<span className="text-[#9DE8D5]">&quot;TechPulse&quot;</span>,
-              {"\n"}
-              {"    "}<span className="text-[#9DE8D5]">&quot;DemoDays&quot;</span>,
-              {"\n"}
-              {"    "}<span className="text-[#9DE8D5]">&quot;AIRA&quot;</span>
+              {"    "}
+              <span className="text-[#9DE8D5]">&quot;AIRA&quot;</span>
               {"\n"}
               {"  "}],
               {"\n"}
               {"  "}
-              <span className="text-[#35D6B3]">philosophy</span>: <span className="text-[#9DE8D5]">&quot;Build → Ship → Learn → Repeat&quot;</span>,
-              {"\n"}
+              <span className="text-[#35D6B3]">philosophy</span>:{" "}
+              <span className="text-[#9DE8D5]">
+                &quot;Build → Ship → Learn → Repeat&quot;
+              </span>
+              ,{"\n"}
               {"}"}
             </CodeBlock>
 

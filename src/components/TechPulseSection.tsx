@@ -20,7 +20,8 @@ const ARTICLES: Article[] = [
   {
     id: "pravesh-architecture",
     slug: "pravesh-architecture",
-    title: "Replacing Campus Paper Logbooks with Pravesh: Distributed Transit at Scale",
+    title:
+      "Replacing Campus Paper Logbooks with Pravesh: Distributed Transit at Scale",
     category: "Engineering",
     date: "Sep 2025",
     readTime: "7 min read",
@@ -39,7 +40,8 @@ const ARTICLES: Article[] = [
   {
     id: "authbahn-captive-portals",
     slug: "authbahn-captive-portals",
-    title: "Defeating Captive Portals: Reverse-Engineering Campus Network Auth into AuthBahn",
+    title:
+      "Defeating Captive Portals: Reverse-Engineering Campus Network Auth into AuthBahn",
     category: "Security",
     date: "Aug 2025",
     readTime: "5 min read",
@@ -58,7 +60,8 @@ const ARTICLES: Article[] = [
   {
     id: "aira-edge-models",
     slug: "aira-edge-models",
-    title: "Small Models, Real Hardware: Why AIRA Evaluates Open-Weights Locally",
+    title:
+      "Small Models, Real Hardware: Why AIRA Evaluates Open-Weights Locally",
     category: "AI Research",
     date: "Jul 2025",
     readTime: "9 min read",
@@ -77,7 +80,8 @@ const ARTICLES: Article[] = [
   {
     id: "crispr-server-infrastructure",
     slug: "crispr-server-infrastructure",
-    title: "Inside the CRISPR Mainframe: Maintaining 99.2% Uptime on 2TB of Academic Storage",
+    title:
+      "Inside the CRISPR Mainframe: Maintaining 99.2% Uptime on 2TB of Academic Storage",
     category: "Infrastructure",
     date: "May 2025",
     readTime: "6 min read",
@@ -100,7 +104,13 @@ export default function TechPulseSection() {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null)
   const { scrollProgress } = useDna()
 
-  const categories = ["All", "Engineering", "AI Research", "Security", "Infrastructure"]
+  const categories = [
+    "All",
+    "Engineering",
+    "AI Research",
+    "Security",
+    "Infrastructure",
+  ]
 
   const filteredArticles =
     activeCategory === "All"
@@ -119,11 +129,11 @@ export default function TechPulseSection() {
         <div className="mt-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-10 border-b border-[#15221c]">
           <div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#F2F4F2] leading-tight">
-              Engineering <span className="text-[#19A88F]">Intelligence.</span>
+              TechPulse <span className="text-[#19A88F]">Dispatches.</span>
             </h2>
             <p className="mt-2 text-sm sm:text-base text-[#A5AEA9] max-w-xl">
-              Authentic systems postmortems, architecture breakdowns, and AI
-              benchmarks written by the engineers building CRISPR.
+              Curated stories, production deep dives, and technical writing from
+              inside the CRISPR ecosystem.
             </p>
           </div>
 
@@ -242,7 +252,8 @@ export default function TechPulseSection() {
 
             <div>
               <div className="font-mono text-xs text-[#19A88F] uppercase tracking-wider mb-2">
-                {selectedArticle.category} // {selectedArticle.date} // {selectedArticle.readTime}
+                {selectedArticle.category} // {selectedArticle.date} //{" "}
+                {selectedArticle.readTime}
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#F2F4F2] leading-tight">
                 {selectedArticle.title}

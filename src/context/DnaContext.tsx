@@ -1,11 +1,16 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from "react"
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react"
 
 export type SectionId =
   | "hero"
   | "about"
   | "ecosystem"
   | "initiatives"
-  | "techpulse"
   | "events"
   | "team"
   | "alumni"
@@ -38,12 +43,11 @@ export const SECTIONS_CONFIG: { id: SectionId; label: string; num: string }[] = 
   { id: "about", label: "About CRISPR", num: "01" },
   { id: "ecosystem", label: "Ecosystem", num: "02" },
   { id: "initiatives", label: "Initiatives", num: "03" },
-  { id: "techpulse", label: "TechPulse", num: "04" },
-  { id: "events", label: "Events & DemoDays", num: "05" },
-  { id: "team", label: "People", num: "06" },
-  { id: "alumni", label: "Alumni Archive", num: "07" },
-  { id: "history", label: "History Timeline", num: "08" },
-  { id: "access", label: "Access Gateway", num: "09" },
+  { id: "events", label: "Events & DemoDays", num: "04" },
+  { id: "team", label: "People", num: "05" },
+  { id: "alumni", label: "Alumni Archive", num: "06" },
+  { id: "history", label: "History Timeline", num: "07" },
+  { id: "access", label: "Access Gateway", num: "08" },
 ]
 
 export function DnaProvider({ children }: { children: React.ReactNode }) {
@@ -66,7 +70,10 @@ export function DnaProvider({ children }: { children: React.ReactNode }) {
       rafId.current = window.requestAnimationFrame(() => {
         rafId.current = null
         const scrollY = window.scrollY
-        const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+        const maxScroll = Math.max(
+          1,
+          document.documentElement.scrollHeight - window.innerHeight,
+        )
         const progress = Math.min(1, Math.max(0, scrollY / maxScroll))
         setScrollProgress(progress)
 
@@ -76,7 +83,6 @@ export function DnaProvider({ children }: { children: React.ReactNode }) {
           "about",
           "ecosystem",
           "initiatives",
-          "techpulse",
           "events",
           "team",
           "alumni",
@@ -116,7 +122,8 @@ export function DnaProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   // Derive DNA morphology mode based on active section and scroll
-  let dnaMode: "helix" | "unfolding" | "network" | "stream" | "constellation" | "dissolve" = "helix"
+  let dnaMode: "helix" | "unfolding" | "network" | "stream" | "constellation" | "dissolve" =
+    "helix"
   let dnaSeparation = 0
 
   if (activeSection === "hero") {
@@ -132,10 +139,11 @@ export function DnaProvider({ children }: { children: React.ReactNode }) {
   } else if (activeSection === "initiatives") {
     dnaMode = "network"
     dnaSeparation = 0.8
-  } else if (activeSection === "techpulse") {
-    dnaMode = "stream"
-    dnaSeparation = 0.65
-  } else if (activeSection === "events" || activeSection === "team" || activeSection === "alumni") {
+  } else if (
+    activeSection === "events" ||
+    activeSection === "team" ||
+    activeSection === "alumni"
+  ) {
     dnaMode = "constellation"
     dnaSeparation = 0.5
   } else if (activeSection === "history" || activeSection === "access") {

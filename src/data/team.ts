@@ -6,6 +6,8 @@ export interface TeamMember {
   category: "leadership" | "development" | "departments" | "infrastructure"
   initials: string
   github?: string
+  description?: string
+  domain?: string
 }
 
 export const team: TeamMember[] = [
@@ -16,6 +18,9 @@ export const team: TeamMember[] = [
     level: 1,
     category: "leadership",
     initials: "YK",
+    domain: "Direction & Strategy",
+    description:
+      "Directs organizational vision, campus administrative partnerships, and cross-department engineering execution at IIIT Nagpur.",
   },
   {
     name: "Yash Gaikwad",
@@ -24,6 +29,9 @@ export const team: TeamMember[] = [
     level: 1,
     category: "leadership",
     initials: "YG",
+    domain: "Operations & Mentorship",
+    description:
+      "Manages sprint execution velocity, inter-team roadmaps, and cross-batch technical mentorship continuity.",
   },
   {
     name: "Lakshit Verma",
@@ -33,6 +41,9 @@ export const team: TeamMember[] = [
     category: "development",
     initials: "LV",
     github: "https://github.com/yummyPancake2607",
+    domain: "Full-Stack Architecture",
+    description:
+      "Architects campus-scale distributed web and mobile platforms including Pravesh transit and core client utilities.",
   },
   {
     name: "Wrichik Paul",
@@ -41,6 +52,9 @@ export const team: TeamMember[] = [
     level: 3,
     category: "departments",
     initials: "WP",
+    domain: "Product Strategy & UX",
+    description:
+      "Shapes product roadmaps, user experience architecture, and technical requirement specifications for campus tools.",
   },
   {
     name: "Harshit",
@@ -49,6 +63,9 @@ export const team: TeamMember[] = [
     level: 3,
     category: "departments",
     initials: "H",
+    domain: "Emerging Tech & Hackathons",
+    description:
+      "Spearheads experimental prototyping arenas, rapid development challenges, and hackathon technical benchmarks.",
   },
   {
     name: "Shlok Khandelwal",
@@ -57,6 +74,9 @@ export const team: TeamMember[] = [
     level: 3,
     category: "departments",
     initials: "SK",
+    domain: "Logistics & Planning",
+    description:
+      "Coordinates institutional logistics, stakeholder operations, and end-to-end delivery of flagship club initiatives.",
   },
   {
     name: "Rakshit Jain",
@@ -65,6 +85,9 @@ export const team: TeamMember[] = [
     level: 3,
     category: "departments",
     initials: "RJ",
+    domain: "Outreach & Public Relations",
+    description:
+      "Leads inter-institute public relations, developer outreach, and external relations across technology communities.",
   },
   {
     name: "Abdul Ahad",
@@ -73,6 +96,9 @@ export const team: TeamMember[] = [
     level: 3,
     category: "departments",
     initials: "AA",
+    domain: "Applied AI Research",
+    description:
+      "Leads the AI Research at CRISPR division, directing localized model quantization, RAG evaluation, and paper reading groups.",
   },
   {
     name: "Tejas Chandane",
@@ -81,6 +107,9 @@ export const team: TeamMember[] = [
     level: 3,
     category: "departments",
     initials: "TC",
+    domain: "Network Security & Crypto",
+    description:
+      "Focuses on security auditing, zero-knowledge cryptographic storage, and campus network protocol reverse engineering (AuthBahn).",
   },
   {
     name: "Ashmit Garg",
@@ -89,5 +118,8 @@ export const team: TeamMember[] = [
     level: 4,
     category: "infrastructure",
     initials: "AG",
+    domain: "Intranet Infrastructure",
+    description:
+      "Maintains the campus LAN FTP server infrastructure, ZFS storage nodes, and gigabit internal mirrors with 99.2% uptime.",
   },
 ]

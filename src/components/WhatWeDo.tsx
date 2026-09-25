@@ -7,8 +7,8 @@ interface InitiativePanel {
   title: string
   tagline: string
   description: string
-  systems: { name: string detail: string tag: string }[]
-  metrics: { label: string value: string }[]
+  systems: { name: string; detail: string; tag: string }[]
+  metrics: { label: string; value: string }[]
   actionLabel: string
   actionUrl: string
 }
@@ -24,22 +24,26 @@ const INITIATIVES: InitiativePanel[] = [
     systems: [
       {
         name: "Pravesh Entry-Exit App",
-        detail: "Replaced paper logbooks with instant digital security verification for hostels and gates.",
+        detail:
+          "Replaced paper logbooks with instant digital security verification for hostels and gates.",
         tag: "Active · 2,200+ Users",
       },
       {
         name: "AuthBahn Chrome Extension",
-        detail: "Eliminated daily captive portal login friction across the campus network with secure local storage.",
+        detail:
+          "Eliminated daily captive portal login friction across the campus network with secure local storage.",
         tag: "Production · Manifest V3",
       },
       {
         name: "CRISPR Server",
-        detail: "High-throughput campus FTP server distributing gigabytes of course material, labs, and mirrors.",
+        detail:
+          "High-throughput campus FTP server distributing gigabytes of course material, labs, and mirrors.",
         tag: "99.2% Uptime · 2 TB",
       },
       {
         name: "CampusKart & Badal",
-        detail: "Student marketplace and decentralized academic notes archive for all semesters.",
+        detail:
+          "Student marketplace and decentralized academic notes archive for all semesters.",
         tag: "In Service",
       },
     ],
@@ -61,22 +65,26 @@ const INITIATIVES: InitiativePanel[] = [
     systems: [
       {
         name: "Local Model Quantization",
-        detail: "Evaluating 4-bit and 8-bit quantized models locally on student workstations without API dependency.",
+        detail:
+          "Evaluating 4-bit and 8-bit quantized models locally on student workstations without API dependency.",
         tag: "Active Benchmark",
       },
       {
         name: "Weekly Paper Reading Group",
-        detail: "Deep reading of recent ArXiv preprints, failure-mode critique, and zero-slide technical discussions.",
+        detail:
+          "Deep reading of recent ArXiv preprints, failure-mode critique, and zero-slide technical discussions.",
         tag: "Weekly Cadence",
       },
       {
         name: "Campus AI Assistant",
-        detail: "Retrieval-augmented pipeline indexing institutional policies, courses, and paperwork.",
+        detail:
+          "Retrieval-augmented pipeline indexing institutional policies, courses, and paperwork.",
         tag: "RAG Evaluation",
       },
       {
         name: "Code Review AST AI",
-        detail: "Static analysis fused with learned models to leave review comments a human would agree with.",
+        detail:
+          "Static analysis fused with learned models to leave review comments a human would agree with.",
         tag: "Research Phase",
       },
     ],
@@ -98,17 +106,20 @@ const INITIATIVES: InitiativePanel[] = [
     systems: [
       {
         name: "Peer Code Reviews",
-        detail: "Every line of production code deployed on campus passes through rigorous multi-reviewer critique.",
+        detail:
+          "Every line of production code deployed on campus passes through rigorous multi-reviewer critique.",
         tag: "Engineering Standard",
       },
       {
         name: "Alumni Knowledge Bridge",
-        detail: "Continuous technical mentorship connecting active campus builders with alumni across industry.",
+        detail:
+          "Continuous technical mentorship connecting active campus builders with alumni across industry.",
         tag: "Continuous Continuity",
       },
       {
         name: "Campus Pulse Dispatches",
-        detail: "Curated technical writing documenting architecture decisions and campus engineering stories.",
+        detail:
+          "Curated technical writing documenting architecture decisions and campus engineering stories.",
         tag: "Published Termly",
       },
     ],
@@ -130,22 +141,26 @@ const INITIATIVES: InitiativePanel[] = [
     systems: [
       {
         name: "DemoDays Monthly Stage",
-        detail: "Monthly open demonstration stage where builders present working software and accept peer critique.",
+        detail:
+          "Monthly open demonstration stage where builders present working software and accept peer critique.",
         tag: "Monthly Cadence",
       },
       {
         name: "Claude Solvathon",
-        detail: "Two-stage AI challenge where teams ship real solutions on frontier models from problem to demo.",
+        detail:
+          "Two-stage AI challenge where teams ship real solutions on frontier models from problem to demo.",
         tag: "Upcoming Dec 2025",
       },
       {
         name: "Analytica ML Hackathon",
-        detail: "Data science and machine learning competition evaluated on modeling rigour and communication.",
+        detail:
+          "Data science and machine learning competition evaluated on modeling rigour and communication.",
         tag: "Nov 2025",
       },
       {
         name: "Server Marathon",
-        detail: "High-intensity server management and network moderation challenge run inside CRISPR Server.",
+        detail:
+          "High-intensity server management and network moderation challenge run inside CRISPR Server.",
         tag: "Live Now",
       },
     ],
@@ -237,7 +252,9 @@ export default function WhatWeDo() {
               </div>
 
               <div className="pt-4">
-                <ArrowLink to={current.actionUrl}>{current.actionLabel}</ArrowLink>
+                <ArrowLink to={current.actionUrl}>
+                  {current.actionLabel}
+                </ArrowLink>
               </div>
             </div>
 

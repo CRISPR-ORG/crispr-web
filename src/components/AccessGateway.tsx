@@ -28,7 +28,8 @@ const GATEWAY_SERVICES: GatewayService[] = [
     description:
       "CRISPR's on-premises file server distributing academic course archives, datasets, developer environments, and Linux mirrors at gigabit speeds across the campus network.",
     protocol: "ftp://crispr.iiitn.ac.in (IIITN LAN)",
-    accessGuide: "Connect via internal campus Wi-Fi or wired hostel ethernet for gigabit throughput.",
+    accessGuide:
+      "Connect via internal campus Wi-Fi or wired hostel ethernet for gigabit throughput.",
     status: "ONLINE",
   },
   {
@@ -42,7 +43,8 @@ const GATEWAY_SERVICES: GatewayService[] = [
     description:
       "A client-side Chrome extension automating campus network captive portal login with zero-knowledge AES local storage. Eliminates daily login timeouts.",
     protocol: "Chrome Web Store / Manifest V3",
-    accessGuide: "Install from GitHub release or Chrome Store; credentials remain strictly on-device.",
+    accessGuide:
+      "Install from GitHub release or Chrome Store; credentials remain strictly on-device.",
     status: "PRODUCTION",
   },
   {
@@ -55,7 +57,8 @@ const GATEWAY_SERVICES: GatewayService[] = [
     description:
       "Weekly engineering dispatches, systems postmortems, and artificial intelligence evaluations authored directly by CRISPR student contributors.",
     protocol: "HTTPS / RSS Feed",
-    accessGuide: "Browse peer-reviewed technical articles and systems architecture breakdowns.",
+    accessGuide:
+      "Browse peer-reviewed technical articles and systems architecture breakdowns.",
     status: "ACTIVE",
   },
   {
@@ -68,7 +71,8 @@ const GATEWAY_SERVICES: GatewayService[] = [
     description:
       "Monthly open stage where student engineers demonstrate working code, test early prototypes, and receive transparent technical critiques from peers.",
     protocol: "Monthly Campus Physical Showcase",
-    accessGuide: "Open registration for all batches; working code mandatory, zero pitch decks.",
+    accessGuide:
+      "Open registration for all batches; working code mandatory, zero pitch decks.",
     status: "ACTIVE",
   },
   {
@@ -81,7 +85,8 @@ const GATEWAY_SERVICES: GatewayService[] = [
     description:
       "Smart gate-pass and entry-exit platform replacing physical paper registers across campus checkpoints with offline public-key validation.",
     protocol: "React Native · Node.js · SQLite",
-    accessGuide: "Deployed across campus security gates for 2,200+ residential students.",
+    accessGuide:
+      "Deployed across campus security gates for 2,200+ residential students.",
     status: "PRODUCTION",
   },
   {
@@ -94,7 +99,8 @@ const GATEWAY_SERVICES: GatewayService[] = [
     description:
       "Student artificial intelligence research division focusing on 4-bit/8-bit local model quantization, RAG evaluation, and AST static analysis.",
     protocol: "Open-Weights Local Evaluation",
-    accessGuide: "Weekly reading group and active experimental projects open to campus contributors.",
+    accessGuide:
+      "Weekly reading group and active experimental projects open to campus contributors.",
     status: "RESEARCH",
   },
   {
@@ -108,13 +114,16 @@ const GATEWAY_SERVICES: GatewayService[] = [
     description:
       "The official open-source repository containing source code for campus utilities, web applications, and experimental algorithms.",
     protocol: "git://github.com/crispr-iiitn",
-    accessGuide: "Pull requests and issue reports welcomed across all public projects.",
+    accessGuide:
+      "Pull requests and issue reports welcomed across all public projects.",
     status: "ONLINE",
   },
 ]
 
 export default function AccessGateway() {
-  const [activeService, setActiveService] = useState<GatewayService>(GATEWAY_SERVICES[0])
+  const [activeService, setActiveService] = useState<GatewayService>(
+    GATEWAY_SERVICES[0],
+  )
   const { setActiveTarget } = useDna()
 
   const handleSelectService = (svc: GatewayService) => {
@@ -241,19 +250,11 @@ export default function AccessGateway() {
 
             <div className="pt-6 border-t border-[#15221c] flex flex-wrap items-center justify-between gap-4">
               {activeService.external ? (
-                <Button
-                  href={activeService.url}
-                  variant="primary"
-                  arrow
-                >
+                <Button href={activeService.url} variant="primary" arrow>
                   {activeService.actionLabel}
                 </Button>
               ) : (
-                <Button
-                  to={activeService.url}
-                  variant="primary"
-                  arrow
-                >
+                <Button to={activeService.url} variant="primary" arrow>
                   {activeService.actionLabel}
                 </Button>
               )}

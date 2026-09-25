@@ -2,29 +2,24 @@ import { useEffect, useRef } from "react"
 import * as THREE from "three"
 import { useDna } from "../context/DnaContext"
 
-/**
- * Creates a soft circular particle sprite texture with quadratic falloff.
- * Produces crisp, beautiful bioluminescent particles without heavy shaders.
- */
-function createParticleTexture(): THREE.Texture {
-  const canvas = document.createElement("canvas")
-  canvas.width = 64
-  canvas.height = 64
-  const ctx = canvas.getContext("2d")!
-
-  const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
-  gradient.addColorStop(0, "rgba(255, 255, 255, 1)")
-  gradient.addColorStop(0.2, "rgba(53, 214, 179, 0.95)")
-  gradient.addColorStop(0.5, "rgba(25, 168, 143, 0.45)")
-  gradient.addColorStop(0.85, "rgba(14, 33, 27, 0.15)")
-  gradient.addColorStop(1, "rgba(5, 7, 6, 0)")
-
-  ctx.fillStyle = gradient
-  ctx.fillRect(0, 0, 64, 64)
-
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.needsUpdate = true
-  return texture
+/** Builds a smooth Catmull-Rom curve tracing one strand of the double helix. */
+function buildStrandCurve(
+  phase: number,
+  radius: number,
+  height: number,
+  frequency: number,
+  samples: number,
+): THREE.CatmullRomCurve3 {
+  const points: THREE.Vector3[] = []
+  for (let i = 0; i <= samples; i++) {
+    const u = (i / samples - 0.5) * 2
+    const t = u * (height / 2)
+    const angle = frequency * t + phase
+    points.push(
+      new THREE.Vector3(radius * Math.cos(angle), t, radius * Math.sin(angle)),
+    )
+  }
+  return new THREE.CatmullRomCurve3(points)
 }
 
 export default function ProceduralDnaCanvas() {
@@ -41,8 +36,6 @@ export default function ProceduralDnaCanvas() {
     currentX: 2.5,
     targetY: 0,
     currentY: 0,
-    targetRotationY: 0,
-    currentRotationY: 0,
     separation: 0,
     currentSeparation: 0,
     opacity: 1,
@@ -79,12 +72,11 @@ export default function ProceduralDnaCanvas() {
       stateRef.current.targetY = 0.4
       stateRef.current.separation = 1.3
       stateRef.current.opacity = 0.8
-    } else if (activeSection === "techpulse") {
-      stateRef.current.targetX = 0
-      stateRef.current.targetY = -0.8
-      stateRef.current.separation = 1.5
-      stateRef.current.opacity = 0.9
-    } else if (activeSection === "events" || activeSection === "team" || activeSection === "alumni") {
+    } else if (
+      activeSection === "events" ||
+      activeSection === "team" ||
+      activeSection === "alumni"
+    ) {
       stateRef.current.targetX = isMobile ? 0 : -2.4
       stateRef.current.targetY = 0.2
       stateRef.current.separation = 0.9
@@ -121,127 +113,90 @@ export default function ProceduralDnaCanvas() {
       antialias: true,
       powerPreference: "high-performance",
     })
+    renderer.setClearColor(0x000000, 0)
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
     renderer.setPixelRatio(dpr)
     renderer.setSize(window.innerWidth, window.innerHeight)
     container.appendChild(renderer.domElement)
 
-    const particleTexture = createParticleTexture()
-
     // ══════════════════════════════════════════════════════════════
     // PROCEDURAL DOUBLE HELIX GENERATION
     // ══════════════════════════════════════════════════════════════
-    const STRAND_POINTS = 550
-    const RUNGS_COUNT = 44
-    const PARTICLES_PER_RUNG = 7
-    const AMBIENT_COUNT = 400
-    const STREAM_COUNT = 250
-
-    const TOTAL_PARTICLES =
-      STRAND_POINTS * 2 + RUNGS_COUNT * PARTICLES_PER_RUNG + AMBIENT_COUNT + STREAM_COUNT
-
-    const geometry = new THREE.BufferGeometry()
-    const positions = new Float32Array(TOTAL_PARTICLES * 3)
-    const basePositions = new Float32Array(TOTAL_PARTICLES * 3)
-    const colors = new Float32Array(TOTAL_PARTICLES * 3)
-    const sizes = new Float32Array(TOTAL_PARTICLES)
-    const particleTypes = new Float32Array(TOTAL_PARTICLES) // 0: strand1, 1: strand2, 2: rung, 3: ambient, 4: stream
-    const phases = new Float32Array(TOTAL_PARTICLES)
-
     const RADIUS = 2.2
     const HEIGHT = 14.0
     const FREQUENCY = 0.75
+    const RUNGS_COUNT = 54
+    const PARTICLES_PER_RUNG = 8
 
-    // Brand color palette instances
-    const colDeep = new THREE.Color("#0E211B")
-    const colTeal = new THREE.Color("#11473c")
     const colCrispr = new THREE.Color("#19A88F")
     const colBright = new THREE.Color("#35D6B3")
     const colMint = new THREE.Color("#9DE8D5")
     const colWhite = new THREE.Color("#F2F4F2")
 
-    let pIdx = 0
+    const dnaGroup = new THREE.Group()
+    scene.add(dnaGroup)
 
-    const setParticle = (
-      index: number,
-      x: number,
-      y: number,
-      z: number,
-      color: THREE.Color,
-      size: number,
-      type: number,
-    ) => {
-      positions[index * 3] = x
-      positions[index * 3 + 1] = y
-      positions[index * 3 + 2] = z
+    // 1. GLASS-LIKE STRAND TUBES (two twisting translucent strands)
+    const curve1 = buildStrandCurve(0, RADIUS, HEIGHT, FREQUENCY, 160)
+    const curve2 = buildStrandCurve(Math.PI, RADIUS, HEIGHT, FREQUENCY, 160)
 
-      basePositions[index * 3] = x
-      basePositions[index * 3 + 1] = y
-      basePositions[index * 3 + 2] = z
+    const strandGeo1 = new THREE.TubeGeometry(curve1, 200, 0.095, 12, false)
+    const strandGeo2 = new THREE.TubeGeometry(curve2, 200, 0.095, 12, false)
 
-      colors[index * 3] = color.r
-      colors[index * 3 + 1] = color.g
-      colors[index * 3 + 2] = color.b
+    const strandMat1 = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color("#0d2b24"),
+      transmission: 0.65,
+      thickness: 1.4,
+      roughness: 0.14,
+      metalness: 0,
+      ior: 1.42,
+      clearcoat: 1,
+      clearcoatRoughness: 0.1,
+      emissive: colCrispr,
+      emissiveIntensity: 0.45,
+      transparent: true,
+      opacity: 0.94,
+    })
+    const strandMat2 = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color("#123a30"),
+      transmission: 0.65,
+      thickness: 1.4,
+      roughness: 0.14,
+      metalness: 0,
+      ior: 1.42,
+      clearcoat: 1,
+      clearcoatRoughness: 0.1,
+      emissive: colBright,
+      emissiveIntensity: 0.45,
+      transparent: true,
+      opacity: 0.94,
+    })
 
-      sizes[index] = size
-      particleTypes[index] = type
-      phases[index] = Math.random() * Math.PI * 2
+    const strandMesh1 = new THREE.Mesh(strandGeo1, strandMat1)
+    const strandMesh2 = new THREE.Mesh(strandGeo2, strandMat2)
+    dnaGroup.add(strandMesh1, strandMesh2)
+
+    // 2. BASE-PAIR RUNGS — instanced glowing spheres connecting the strands
+    type RungDatum = {
+      x1: number
+      y1: number
+      z1: number
+      x2: number
+      y2: number
+      z2: number
+      frac: number
+      phase: number
     }
+    const rungData: RungDatum[] = []
+    const rungAnchors: {
+      x1: number
+      y1: number
+      z1: number
+      x2: number
+      y2: number
+      z2: number
+    }[] = []
 
-    // 1. STRAND 1
-    for (let i = 0; i < STRAND_POINTS; i++) {
-      const u = (i / STRAND_POINTS - 0.5) * 2
-      const t = u * (HEIGHT / 2)
-      const angle = FREQUENCY * t
-      const x = RADIUS * Math.cos(angle)
-      const y = t
-      const z = RADIUS * Math.sin(angle)
-
-      // Color variation hierarchy
-      const rand = Math.random()
-      let c = colCrispr
-      let sz = 3.6
-      if (rand < 0.15) {
-        c = colBright
-        sz = 4.4
-      } else if (rand < 0.22) {
-        c = colWhite
-        sz = 5.0
-      } else if (rand < 0.6) {
-        c = colTeal
-        sz = 3.0
-      }
-
-      setParticle(pIdx++, x, y, z, c, sz, 0)
-    }
-
-    // 2. STRAND 2 (Phase shifted by PI)
-    for (let i = 0; i < STRAND_POINTS; i++) {
-      const u = (i / STRAND_POINTS - 0.5) * 2
-      const t = u * (HEIGHT / 2)
-      const angle = FREQUENCY * t + Math.PI
-      const x = RADIUS * Math.cos(angle)
-      const y = t
-      const z = RADIUS * Math.sin(angle)
-
-      const rand = Math.random()
-      let c = colCrispr
-      let sz = 3.6
-      if (rand < 0.15) {
-        c = colMint
-        sz = 4.4
-      } else if (rand < 0.22) {
-        c = colWhite
-        sz = 5.0
-      } else if (rand < 0.6) {
-        c = colTeal
-        sz = 3.0
-      }
-
-      setParticle(pIdx++, x, y, z, c, sz, 1)
-    }
-
-    // 3. BASE-PAIR RUNGS (connecting Strand 1 & Strand 2)
     for (let r = 0; r < RUNGS_COUNT; r++) {
       const u = (r / RUNGS_COUNT - 0.5) * 2
       const t = u * (HEIGHT / 2)
@@ -250,70 +205,56 @@ export default function ProceduralDnaCanvas() {
       const x1 = RADIUS * Math.cos(angle)
       const y1 = t
       const z1 = RADIUS * Math.sin(angle)
-
       const x2 = RADIUS * Math.cos(angle + Math.PI)
       const y2 = t
       const z2 = RADIUS * Math.sin(angle + Math.PI)
 
+      rungAnchors.push({ x1, y1, z1, x2, y2, z2 })
+
       for (let j = 0; j < PARTICLES_PER_RUNG; j++) {
         const frac = (j + 1) / (PARTICLES_PER_RUNG + 1)
-        const rx = x1 + (x2 - x1) * frac
-        const ry = y1 + (y2 - y1) * frac
-        const rz = z1 + (z2 - z1) * frac
-
-        const rand = Math.random()
-        const c = rand < 0.25 ? colBright : rand < 0.7 ? colCrispr : colTeal
-        const sz = 2.2 + Math.random() * 1.5
-
-        setParticle(pIdx++, rx, ry, rz, c, sz, 2)
+        rungData.push({
+          x1,
+          y1,
+          z1,
+          x2,
+          y2,
+          z2,
+          frac,
+          phase: Math.random() * Math.PI * 2,
+        })
       }
     }
 
-    // 4. AMBIENT SCIENTIFIC PARTICLES (floating around helix cylinder)
-    for (let a = 0; a < AMBIENT_COUNT; a++) {
-      const t = (Math.random() - 0.5) * HEIGHT * 1.2
-      const r = RADIUS * (0.6 + Math.random() * 1.4)
-      const theta = Math.random() * Math.PI * 2
-      const ax = r * Math.cos(theta)
-      const ay = t
-      const az = r * Math.sin(theta)
-
-      const c = Math.random() < 0.3 ? colCrispr : colDeep
-      const sz = 1.6 + Math.random() * 2.2
-
-      setParticle(pIdx++, ax, ay, az, c, sz, 3)
-    }
-
-    // 5. TECHPULSE INFORMATION STREAM PARTICLES (horizontal drift)
-    for (let s = 0; s < STREAM_COUNT; s++) {
-      const sx = (Math.random() - 0.5) * 20
-      const sy = (Math.random() - 0.5) * 4 - 2
-      const szCoord = (Math.random() - 0.5) * 5
-      const c = Math.random() < 0.4 ? colBright : colCrispr
-      const sz = 2.0 + Math.random() * 2.4
-
-      setParticle(pIdx++, sx, sy, szCoord, c, sz, 4)
-    }
-
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3))
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3))
-    geometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1))
-
-    // Points Material with Additive Blending for subtle luminescence
-    const material = new THREE.PointsMaterial({
-      size: 4.5,
-      map: particleTexture,
-      transparent: true,
+    const RUNG_INSTANCE_COUNT = rungData.length
+    const rungGeo = new THREE.SphereGeometry(0.05, 8, 8)
+    const rungMat = new THREE.MeshBasicMaterial({
       vertexColors: true,
+      transparent: true,
+      opacity: 0.9,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      opacity: 0.85,
     })
+    const rungMesh = new THREE.InstancedMesh(rungGeo, rungMat, RUNG_INSTANCE_COUNT)
+    const rungColorArray = new Float32Array(RUNG_INSTANCE_COUNT * 3)
+    for (let i = 0; i < RUNG_INSTANCE_COUNT; i++) {
+      const rand = Math.random()
+      const c =
+        rand < 0.22
+          ? colBright
+          : rand < 0.4
+            ? colWhite
+            : rand < 0.75
+              ? colCrispr
+              : colMint
+      rungColorArray[i * 3] = c.r
+      rungColorArray[i * 3 + 1] = c.g
+      rungColorArray[i * 3 + 2] = c.b
+    }
+    rungMesh.instanceColor = new THREE.InstancedBufferAttribute(rungColorArray, 3)
+    dnaGroup.add(rungMesh)
 
-    const pointCloud = new THREE.Points(geometry, material)
-    scene.add(pointCloud)
-
-    // Optional fine connection lines between base pairs for structural precision
+    // Fine structural lines tracing each base pair (before scatter)
     const lineMat = new THREE.LineBasicMaterial({
       color: new THREE.Color("#19A88F"),
       transparent: true,
@@ -321,26 +262,18 @@ export default function ProceduralDnaCanvas() {
       blending: THREE.AdditiveBlending,
     })
     const linePositions = new Float32Array(RUNGS_COUNT * 6)
-    for (let r = 0; r < RUNGS_COUNT; r++) {
-      const u = (r / RUNGS_COUNT - 0.5) * 2
-      const t = u * (HEIGHT / 2)
-      const angle = FREQUENCY * t
-      linePositions[r * 6] = RADIUS * Math.cos(angle)
-      linePositions[r * 6 + 1] = t
-      linePositions[r * 6 + 2] = RADIUS * Math.sin(angle)
-      linePositions[r * 6 + 3] = RADIUS * Math.cos(angle + Math.PI)
-      linePositions[r * 6 + 4] = t
-      linePositions[r * 6 + 5] = RADIUS * Math.sin(angle + Math.PI)
-    }
     const lineGeo = new THREE.BufferGeometry()
     lineGeo.setAttribute("position", new THREE.BufferAttribute(linePositions, 3))
     const rungLines = new THREE.LineSegments(lineGeo, lineMat)
-    scene.add(rungLines)
+    dnaGroup.add(rungLines)
 
-    // Subtle atmospheric point light
-    const pointLight = new THREE.PointLight("#35D6B3", 1.8, 25)
-    pointLight.position.set(3, 2, 6)
-    scene.add(pointLight)
+    // Restrained cinematic lighting — cyan & emerald key lights, soft fill
+    const lightCyan = new THREE.PointLight("#35D6B3", 1.1, 25)
+    lightCyan.position.set(4, 3, 6)
+    const lightEmerald = new THREE.PointLight("#19A88F", 0.9, 25)
+    lightEmerald.position.set(-4, -2.5, 5)
+    const ambientLight = new THREE.AmbientLight("#0c1a15", 0.5)
+    scene.add(lightCyan, lightEmerald, ambientLight)
 
     // Handle Window Resize
     const handleResize = () => {
@@ -355,19 +288,24 @@ export default function ProceduralDnaCanvas() {
     // ══════════════════════════════════════════════════════════════
     // ANIMATION & INTERACTION LOOP
     // ══════════════════════════════════════════════════════════════
-    let clock = new THREE.Clock()
+    const clock = new THREE.Clock()
     let animationFrameId: number
+    const dummy = new THREE.Object3D()
 
     const animate = () => {
-      const dt = clock.getDelta()
       const time = clock.getElapsedTime()
       const state = stateRef.current
 
       // Smooth lerp positions & rotations
       state.currentX += (state.targetX - state.currentX) * 0.05
       state.currentY += (state.targetY - state.currentY) * 0.05
-      state.currentSeparation += (state.separation - state.currentSeparation) * 0.04
+      state.currentSeparation +=
+        (state.separation - state.currentSeparation) * 0.04
       state.currentOpacity += (state.opacity - state.currentOpacity) * 0.05
+
+      const sep = state.currentSeparation
+      const sepOffset1 = -sep * 1.6
+      const sepOffset2 = sep * 1.6
 
       // Mouse influence: subtle 5-8 degrees tilt
       const mouseTiltX = state.mousePos.y * 0.12
@@ -375,78 +313,60 @@ export default function ProceduralDnaCanvas() {
 
       // Idle rotation + scroll-driven continuous rotation
       const baseRotationY = time * 0.28 + state.scrollProgress * Math.PI * 4
-      pointCloud.rotation.y = baseRotationY + mouseTiltY
-      pointCloud.rotation.x = mouseTiltX
-      rungLines.rotation.y = pointCloud.rotation.y
-      rungLines.rotation.x = pointCloud.rotation.x
+      dnaGroup.rotation.y = baseRotationY + mouseTiltY
+      dnaGroup.rotation.x = mouseTiltX
 
-      // Group position
-      pointCloud.position.x = state.currentX
-      pointCloud.position.y = state.currentY
-      rungLines.position.x = state.currentX
-      rungLines.position.y = state.currentY
+      // Group position (section-driven drift)
+      dnaGroup.position.x = state.currentX
+      dnaGroup.position.y = state.currentY
 
-      material.opacity = state.currentOpacity
-      lineMat.opacity = Math.max(0.04, 0.22 * (1 - state.currentSeparation * 0.7))
+      // Strands drift apart to "unfold" as separation increases
+      strandMesh1.position.x = sepOffset1
+      strandMesh2.position.x = sepOffset2
 
-      // Dynamic Particle Morphing based on separation & active section
-      const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute
-      const posArray = posAttr.array as Float32Array
-      const sep = state.currentSeparation
+      strandMat1.opacity = state.currentOpacity * 0.9
+      strandMat2.opacity = state.currentOpacity * 0.9
+      rungMat.opacity = state.currentOpacity * 0.85
+      lineMat.opacity = Math.max(0.03, 0.22 * (1 - sep * 0.7)) * state.currentOpacity
 
-      for (let i = 0; i < TOTAL_PARTICLES; i++) {
-        const type = particleTypes[i]
-        const bx = basePositions[i * 3]
-        const by = basePositions[i * 3 + 1]
-        const bz = basePositions[i * 3 + 2]
-        const phase = phases[i]
+      // Base-pair rung instances: scatter outward once strands separate
+      for (let i = 0; i < RUNG_INSTANCE_COUNT; i++) {
+        const d = rungData[i]
+        const wave = Math.sin(time * 1.5 + d.y1 * 0.8 + d.phase) * 0.06
 
-        // Microscopic organic breathing undulation
-        const wave = Math.sin(time * 1.5 + by * 0.8 + phase) * 0.08
+        const ex1 = d.x1 + sepOffset1
+        const ex2 = d.x2 + sepOffset2
 
-        if (type === 0) {
-          // Strand 1: drifts left/outward on separation
-          const sepX = -sep * 1.6
-          posArray[i * 3] = bx + sepX + wave
-          posArray[i * 3 + 1] = by
-          posArray[i * 3 + 2] = bz + wave
-        } else if (type === 1) {
-          // Strand 2: drifts right/outward on separation
-          const sepX = sep * 1.6
-          posArray[i * 3] = bx + sepX - wave
-          posArray[i * 3 + 1] = by
-          posArray[i * 3 + 2] = bz - wave
-        } else if (type === 2) {
-          // Rungs: dissolve outward when strands separate
-          const rungScatter = sep > 0.3 ? (sep - 0.3) * 1.8 : 0
-          const scatterAngle = phase + time * 0.5
-          posArray[i * 3] = bx + Math.cos(scatterAngle) * rungScatter + wave
-          posArray[i * 3 + 1] = by + Math.sin(scatterAngle) * rungScatter * 0.5
-          posArray[i * 3 + 2] = bz + Math.sin(scatterAngle) * rungScatter
-        } else if (type === 3) {
-          // Ambient particles: slow orbital drift
-          const orbAngle = time * 0.15 + phase
-          const r = Math.sqrt(bx * bx + bz * bz) + wave * 2
-          posArray[i * 3] = r * Math.cos(orbAngle)
-          posArray[i * 3 + 1] = by + Math.sin(time * 0.5 + phase) * 0.4
-          posArray[i * 3 + 2] = r * Math.sin(orbAngle)
-        } else if (type === 4) {
-          // Information stream for TechPulse
-          if (state.activeSection === "techpulse") {
-            let sx = posArray[i * 3] - dt * 4.5
-            if (sx < -12) sx = 12
-            posArray[i * 3] = sx
-            posArray[i * 3 + 1] = by + Math.sin(sx * 0.6 + time * 2) * 0.35
-            posArray[i * 3 + 2] = bz + Math.cos(sx * 0.4 + time) * 0.3
-          } else {
-            // Keep inactive or subtle
-            posArray[i * 3] = bx
-            posArray[i * 3 + 1] = by - 15 // hidden offscreen
-            posArray[i * 3 + 2] = bz
-          }
-        }
+        const rungScatter = sep > 0.3 ? (sep - 0.3) * 1.8 : 0
+        const scatterAngle = d.phase + time * 0.5
+
+        const rx =
+          ex1 + (ex2 - ex1) * d.frac + Math.cos(scatterAngle) * rungScatter + wave
+        const ry = d.y1 + Math.sin(scatterAngle) * rungScatter * 0.5
+        const rz = d.z1 + (d.z2 - d.z1) * d.frac + Math.sin(scatterAngle) * rungScatter
+
+        dummy.position.set(rx, ry, rz)
+        dummy.updateMatrix()
+        rungMesh.setMatrixAt(i, dummy.matrix)
       }
-      posAttr.needsUpdate = true
+      rungMesh.instanceMatrix.needsUpdate = true
+
+      // Structural connector lines (fade out as strands separate)
+      for (let r = 0; r < RUNGS_COUNT; r++) {
+        const a = rungAnchors[r]
+        linePositions[r * 6] = a.x1 + sepOffset1
+        linePositions[r * 6 + 1] = a.y1
+        linePositions[r * 6 + 2] = a.z1
+        linePositions[r * 6 + 3] = a.x2 + sepOffset2
+        linePositions[r * 6 + 4] = a.y2
+        linePositions[r * 6 + 5] = a.z2
+      }
+      ;(lineGeo.getAttribute("position") as THREE.BufferAttribute).needsUpdate = true
+
+      // Subtle living-energy pulse through the strands
+      const pulse = 0.3 + Math.sin(time * 1.2) * 0.08
+      strandMat1.emissiveIntensity = pulse
+      strandMat2.emissiveIntensity = pulse
 
       renderer.render(scene, camera)
       animationFrameId = requestAnimationFrame(animate)
@@ -460,8 +380,12 @@ export default function ProceduralDnaCanvas() {
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement)
       }
-      geometry.dispose()
-      material.dispose()
+      strandGeo1.dispose()
+      strandGeo2.dispose()
+      strandMat1.dispose()
+      strandMat2.dispose()
+      rungGeo.dispose()
+      rungMat.dispose()
       lineGeo.dispose()
       lineMat.dispose()
       renderer.dispose()
@@ -473,6 +397,9 @@ export default function ProceduralDnaCanvas() {
       ref={containerRef}
       className="fixed inset-0 pointer-events-none z-10 overflow-hidden"
       aria-hidden="true"
-    />
+    >
+      <div className="dna-hud-overlay" style={{ zIndex: 2 }} />
+      <div className="dna-hud-scan" style={{ zIndex: 2 }} />
+    </div>
   )
 }

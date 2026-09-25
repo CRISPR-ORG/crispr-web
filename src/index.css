@@ -274,25 +274,25 @@ img {
 
 .btn-primary {
   background: #19A88F;
-  color: #080909;
+  color: #050706;
   font-weight: 600;
   border: 1px solid #19A88F;
 }
 .btn-primary:hover {
-  background: #2ED9B8;
-  border-color: #2ED9B8;
-  color: #080909;
+  background: #35D6B3;
+  border-color: #35D6B3;
+  color: #050706;
 }
 
 .btn-ghost {
-  color: #F2F2F2;
-  border: 1px solid #242826;
-  background: transparent;
+  color: #F2F4F2;
+  border: 1px solid #15221c;
+  background: #0A0F0D;
 }
 .btn-ghost:hover {
   border-color: #19A88F;
-  color: #2ED9B8;
-  background: rgba(25, 168, 143, 0.05);
+  color: #35D6B3;
+  background: rgba(25, 168, 143, 0.08);
 }
 
 .link-underline {
@@ -393,8 +393,8 @@ img {
 
 .code-surface {
   position: relative;
-  background: #0e1010;
-  border: 1px solid #242826;
+  background: #0A0F0D;
+  border: 1px solid #15221c;
   border-left: 2px solid #19A88F;
 }
 
@@ -405,8 +405,8 @@ img {
 .frame {
   position: relative;
   overflow: hidden;
-  background: #0e1010;
-  border: 1px solid #242826;
+  background: #0A0F0D;
+  border: 1px solid #15221c;
 }
 .frame img {
   width: 100%;
@@ -428,7 +428,7 @@ img {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(8, 9, 9, 0.65), transparent 55%);
+  background: linear-gradient(to top, rgba(5, 7, 6, 0.65), transparent 55%);
 }
 
 .frame .monogram {
@@ -465,7 +465,7 @@ img {
 
 .row {
   position: relative;
-  border-top: 1px solid #242826;
+  border-top: 1px solid #15221c;
   transition: border-color 0.3s var(--ease);
 }
 .row::before {
@@ -560,10 +560,10 @@ img {
    ══════════════════════════════════════════════════════════════ */
 
 .nav-solid {
-  background: rgba(8, 9, 9, 0.9);
+  background: rgba(5, 7, 6, 0.9);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid #242826;
+  border-bottom: 1px solid #15221c;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -574,7 +574,7 @@ img {
   width: 100%;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid #242826;
+  border-bottom: 1px solid #15221c;
   color: #F2F2F2;
   font-family: var(--font-sans);
   font-size: 0.9375rem;
@@ -672,8 +672,8 @@ textarea.field {
   justify-content: center;
   width: 14px;
   height: 14px;
-  background: #080909;
-  border: 1px solid #242826;
+  background: #050706;
+  border: 1px solid #15221c;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.25s var(--ease);
@@ -688,7 +688,7 @@ textarea.field {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #19A88F;
+  background: #35D6B3;
 }
 
 .dna-label {
@@ -696,9 +696,9 @@ textarea.field {
   right: calc(100% + 0.75rem);
   white-space: nowrap;
   padding: 0.2rem 0.5rem;
-  background: #0e1010;
-  border: 1px solid #242826;
-  color: #777D7A;
+  background: #0A0F0D;
+  border: 1px solid #15221c;
+  color: #A5AEA9;
   font-family: var(--font-mono);
   font-size: 0.625rem;
   letter-spacing: 0.12em;
@@ -716,4 +716,105 @@ textarea.field {
 .dna-node.is-active .dna-label {
   color: #19A88F;
   border-color: rgba(25, 168, 143, 0.4);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DNA Canvas HUD Overlay (scan lines + molecular grid texture)
+   ══════════════════════════════════════════════════════════════ */
+
+.dna-hud-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.06;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(53, 214, 179, 0.05) 0px,
+    rgba(53, 214, 179, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.dna-hud-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 110px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(53, 214, 179, 0.06) 45%,
+    rgba(53, 214, 179, 0.1) 50%,
+    rgba(53, 214, 179, 0.06) 55%,
+    transparent
+  );
+  animation: dna-scan-sweep 11s linear infinite;
+}
+
+@keyframes dna-scan-sweep {
+  0% { transform: translateY(-110%); opacity: 0; }
+  8% { opacity: 0.5; }
+  50% { opacity: 0.28; }
+  92% { opacity: 0.5; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dna-hud-scan {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Boot Loader — DNA formation intro sequence
+   ══════════════════════════════════════════════════════════════ */
+
+.loader-root {
+  animation: loader-root-out 0.15s ease-in 3.35s forwards;
+}
+
+@keyframes loader-root-out {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
+}
+
+.loader-crispr {
+  opacity: 0;
+  animation: loader-text-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.4s both;
+}
+
+.loader-tagline {
+  opacity: 0;
+  animation: loader-text-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2.7s both;
+}
+
+@keyframes loader-text-in {
+  0% { opacity: 0; transform: translateY(12px) scale(0.94); }
+  40% { opacity: 1; transform: translateY(0) scale(1); }
+  75% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-8px) scale(1.04); }
+}
+
+.loader-progress-bar {
+  width: 0%;
+  animation: loader-progress 3.5s linear forwards;
+}
+
+@keyframes loader-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-root,
+  .loader-crispr,
+  .loader-tagline,
+  .loader-progress-bar {
+    animation: none !important;
+  }
 }

@@ -10,8 +10,13 @@ export default function EventsDemoDays() {
     filter === "All"
       ? events
       : filter === "Upcoming"
-      ? events.filter((e) => e.status === "Live" || e.status === "Upcoming" || e.status === "Registration Open")
-      : events.filter((e) => e.type === filter || e.status === filter)
+        ? events.filter(
+            (e) =>
+              e.status === "Live" ||
+              e.status === "Upcoming" ||
+              e.status === "Registration Open",
+          )
+        : events.filter((e) => e.type === filter || e.status === filter)
 
   return (
     <section
@@ -35,19 +40,21 @@ export default function EventsDemoDays() {
 
           {/* Filter Pills */}
           <div className="flex flex-wrap gap-2">
-            {["All", "Upcoming", "Hackathon", "Competition", "Showcase"].map((f) => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-all duration-200 cursor-pointer border ${
-                  filter === f
-                    ? "bg-[#19A88F] text-[#050706] border-[#35D6B3] font-semibold"
-                    : "bg-[#0A0F0D] text-[#A5AEA9] border-[#15221c] hover:border-[#19A88F]/50 hover:text-[#F2F4F2]"
-                }`}
-              >
-                {f}
-              </button>
-            ))}
+            {["All", "Upcoming", "Hackathon", "Competition", "Showcase"].map(
+              (f) => (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  className={`px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-all duration-200 cursor-pointer border ${
+                    filter === f
+                      ? "bg-[#19A88F] text-[#050706] border-[#35D6B3] font-semibold"
+                      : "bg-[#0A0F0D] text-[#A5AEA9] border-[#15221c] hover:border-[#19A88F]/50 hover:text-[#F2F4F2]"
+                  }`}
+                >
+                  {f}
+                </button>
+              ),
+            )}
           </div>
         </div>
 
@@ -97,9 +104,10 @@ export default function EventsDemoDays() {
                         className={`inline-block font-mono text-[9px] uppercase tracking-wider px-2 py-1 border ${
                           evt.status === "Live"
                             ? "bg-[#19A88F]/20 text-[#35D6B3] border-[#35D6B3] animate-pulse"
-                            : evt.status === "Upcoming" || evt.status === "Registration Open"
-                            ? "bg-[#0A0F0D] text-[#19A88F] border-[#19A88F]"
-                            : "bg-[#050706] text-[#68736E] border-[#15221c]"
+                            : evt.status === "Upcoming" ||
+                                evt.status === "Registration Open"
+                              ? "bg-[#0A0F0D] text-[#19A88F] border-[#19A88F]"
+                              : "bg-[#050706] text-[#68736E] border-[#15221c]"
                         }`}
                       >
                         {evt.status}
@@ -139,7 +147,8 @@ export default function EventsDemoDays() {
 
             <div>
               <div className="font-mono text-xs text-[#35D6B3] uppercase tracking-wider mb-1">
-                {selectedEvent.type} · {selectedEvent.date} · {selectedEvent.location}
+                {selectedEvent.type} · {selectedEvent.date} ·{" "}
+                {selectedEvent.location}
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F2F4F2]">
                 {selectedEvent.name}

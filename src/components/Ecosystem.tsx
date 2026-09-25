@@ -118,7 +118,9 @@ const NETWORK_NODES: NetworkNode[] = [
 ]
 
 export default function Ecosystem() {
-  const [selectedNode, setSelectedNode] = useState<NetworkNode>(NETWORK_NODES[0])
+  const [selectedNode, setSelectedNode] = useState<NetworkNode>(
+    NETWORK_NODES[0],
+  )
   const { setActiveTarget } = useDna()
 
   const handleNodeHover = (node: NetworkNode) => {
@@ -274,19 +276,11 @@ export default function Ecosystem() {
 
             <div className="pt-4 border-t border-[#15221c] flex items-center justify-between">
               {selectedNode.external ? (
-                <Button
-                  href={selectedNode.actionUrl}
-                  variant="primary"
-                  arrow
-                >
+                <Button href={selectedNode.actionUrl} variant="primary" arrow>
                   {selectedNode.actionLabel}
                 </Button>
               ) : (
-                <Button
-                  to={selectedNode.actionUrl}
-                  variant="primary"
-                  arrow
-                >
+                <Button to={selectedNode.actionUrl} variant="primary" arrow>
                   {selectedNode.actionLabel}
                 </Button>
               )}

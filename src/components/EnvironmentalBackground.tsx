@@ -59,16 +59,6 @@ export default function EnvironmentalBackground() {
           bgTint: "#050706",
           extraHaze: 0.08,
         }
-      case "techpulse":
-        return {
-          glowX: "55%",
-          glowY: "50%",
-          glowSize: "850px",
-          color1: "rgba(53, 214, 179, 0.13)",
-          color2: "rgba(25, 168, 143, 0.25)",
-          bgTint: "#060a08",
-          extraHaze: 0.2,
-        }
       case "events":
         return {
           glowX: "60%",
@@ -198,7 +188,10 @@ export default function EnvironmentalBackground() {
     <div
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
       aria-hidden="true"
-      style={{ backgroundColor: atmo.bgTint, transition: "background-color 1.2s cubic-bezier(0.16, 1, 0.3, 1)" }}
+      style={{
+        backgroundColor: atmo.bgTint,
+        transition: "background-color 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
+      }}
     >
       {/* Layer 2: Subtle radial lighting behind DNA, smoothly follows section position & cursor */}
       <div

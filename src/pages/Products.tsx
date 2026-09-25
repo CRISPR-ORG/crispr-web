@@ -46,7 +46,7 @@ export default function Products() {
       <div
         className="sticky top-16 z-30 md:top-[4.5rem]"
         style={{
-          background: "rgba(8, 9, 9, 0.9)",
+          background: "rgba(5, 7, 6, 0.9)",
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
           borderBottom: "1px solid var(--line)",

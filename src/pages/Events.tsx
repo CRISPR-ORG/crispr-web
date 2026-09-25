@@ -4,7 +4,7 @@ import { events, eventYears, type EventItem } from "../data/events"
 import { PageHeader, Shell, Frame, Status } from "../components/ui"
 
 /** One archive entry: alternating editorial spread, no cards. */
-function EventEntry({ event, flip }: { event: EventItem flip: boolean }) {
+function EventEntry({ event, flip }: { event: EventItem; flip: boolean }) {
   return (
     <article
       className="group reveal grid-12 items-center gap-y-8 py-14 md:py-20"

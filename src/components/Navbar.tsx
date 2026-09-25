@@ -1,187 +1,179 @@
 import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router"
+import { OfficialLogo } from "./Logo"
+import { useDna, SectionId } from "../context/DnaContext"
 
-const NAV_ITEMS = [
-  { label: "About", anchor: "about", route: "/#about" },
-  { label: "Ecosystem", anchor: "ecosystem", route: "/#ecosystem" },
-  { label: "Initiatives", anchor: "initiatives", route: "/products" },
-  { label: "TechPulse", anchor: "techpulse", route: "/#techpulse" },
-  { label: "Events", anchor: "events", route: "/events" },
-  { label: "People", anchor: "team", route: "/team" },
-  { label: "Access", anchor: "access", route: "/#access", isCta: true },
+interface NavLinkItem {
+  id: SectionId
+  label: string
+  anchor: string
+  route: string
+  isCta?: boolean
+}
+
+const NAV_ITEMS: NavLinkItem[] = [
+  {
+    id: "techpulse",
+    label: "TechPulse",
+    anchor: "techpulse",
+    route: "/#techpulse",
+  },
+  { id: "events", label: "Events", anchor: "events", route: "/#events" },
+  {
+    id: "access",
+    label: "Access",
+    anchor: "access",
+    route: "/#access",
+    isCta: true,
+  },
 ]
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const { pathname } = useLocation()
+  const { activeSection } = useDna()
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    onScroll()
+    const onScroll = () => setScrolled(window.scrollY > 30)
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  useEffect(() => setOpen(false), [pathname])
-
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : ""
-    return () => {
-      document.body.style.overflow = ""
-    }
-  }, [open])
+    setMobileOpen(false)
+  }, [pathname])
 
-  const handleNavClick = (anchor: string, route: string) => {
-    setOpen(false)
+  const handleNavClick = (item: NavLinkItem) => {
+    setMobileOpen(false)
     if (pathname === "/") {
-      const el = document.getElementById(anchor)
+      const el = document.getElementById(item.anchor)
       if (el) {
         const offset = 70
         const top = el.getBoundingClientRect().top + window.scrollY - offset
         window.scrollTo({ top, behavior: "smooth" })
-        return
       }
-    }
-    // If on subpage and route is an anchor on home:
-    if (route.startsWith("/#")) {
-      window.location.href = route
+    } else {
+      window.location.href = item.route
     }
   }
 
   return (
     <>
-      <nav
-        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
-          scrolled || open
-            ? "bg-[#080909]/90 backdrop-blur-md border-b border-[#242826]"
-            : "border-b border-transparent"
+      <header
+        className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
+          scrolled || mobileOpen
+            ? "bg-[#050706]/90 backdrop-blur-md border-b border-[#15221c]"
+            : "bg-transparent border-b border-transparent"
         }`}
       >
-        <div className="shell flex h-16 items-center justify-between lg:h-18">
-          {/* Official CRISPR Identity */}
+        <div className="shell flex h-16 items-center justify-between">
+          {/* Logo on Left */}
           <Link
             to="/"
-            className="group flex flex-col items-start gap-0.5 focus:outline-none"
-            aria-label="CRISPR IIIT Nagpur home"
+            className="flex items-center gap-3 focus:outline-none group"
+            aria-label="CRISPR IIIT Nagpur Home"
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#19A88F]">
-              CRISPR - Central Research Initiative & Student Public Relations
-            </span>
-            <span className="font-bold text-[13px] tracking-tight text-[#F2F2F2]">
-              IIIT NAGPUR
-            </span>
-            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#777D7A]">
-              CENTRAL RESEARCH INITIATIVE & STUDENT PUBLIC RELATIONS
-            </span>
+            <OfficialLogo size={36} className="shrink-0" />
+            <div className="hidden sm:block leading-tight">
+              <span className="font-mono text-xs text-[#19A88F] uppercase tracking-[0.2em] font-semibold block">
+                IIIT Nagpur
+              </span>
+              <span className="font-mono text-[10px] text-[#A5AEA9] tracking-[0.1em] uppercase block">
+                Central Research Initiative &amp; Student Public Relations
+              </span>
+            </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden items-center gap-6 lg:flex">
+          {/* Sections on Right (Desktop) */}
+          <nav
+            className="hidden lg:flex items-center gap-6"
+            aria-label="Main Navigation"
+          >
             {NAV_ITEMS.map((item) => {
+              const isActive = activeSection === item.id && pathname === "/"
+
               if (item.isCta) {
                 return (
                   <button
                     key={item.label}
-                    onClick={() => handleNavClick(item.anchor, item.route)}
-                    className="px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-[#080909] bg-[#19A88F] font-semibold hover:bg-[#2ED9B8] transition-colors cursor-pointer"
+                    onClick={() => handleNavClick(item)}
+                    className="px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-wider text-[#050706] bg-[#19A88F] hover:bg-[#35D6B3] font-semibold transition-colors cursor-pointer ml-2"
                   >
                     CRISPR Access
                   </button>
                 )
               }
 
-              if (pathname === "/" && item.anchor) {
-                return (
-                  <button
-                    key={item.label}
-                    onClick={() => handleNavClick(item.anchor, item.route)}
-                    className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#777D7A] hover:text-[#F2F2F2] transition-colors cursor-pointer"
-                  >
-                    {item.label}
-                  </button>
-                )
-              }
-
               return (
-                <Link
+                <button
                   key={item.label}
-                  to={item.route}
-                  className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#777D7A] hover:text-[#F2F2F2] transition-colors"
+                  onClick={() => handleNavClick(item)}
+                  className={`relative font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer py-1 ${
+                    isActive
+                      ? "text-[#F2F4F2] font-semibold"
+                      : "text-[#68736E] hover:text-[#A5AEA9]"
+                  }`}
                 >
-                  {item.label}
-                </Link>
+                  <span>{item.label}</span>
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#19A88F]" />
+                  )}
+                </button>
               )
             })}
+          </nav>
 
-            <span className="h-3 w-px bg-[#242826]" />
-
-            <div className="flex items-center gap-2 font-mono text-[10px] tracking-wider text-[#19A88F]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#19A88F] animate-pulse" />
-              <span>ONLINE</span>
-            </div>
-          </div>
-
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Menu Hamburger */}
           <button
-            className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden text-[#F2F2F2]"
-            onClick={() => setOpen((o) => !o)}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden p-2 text-[#A5AEA9] hover:text-[#F2F4F2] cursor-pointer"
+            aria-label="Toggle navigation menu"
           >
-            <span
-              className="block h-px w-5 bg-current transition-transform duration-300"
-              style={{
-                transform: open ? "translateY(3.5px) rotate(45deg)" : "none",
-              }}
-            />
-            <span
-              className="block h-px w-5 bg-current transition-opacity duration-200"
-              style={{ opacity: open ? 0 : 1 }}
-            />
-            <span
-              className="block h-px w-5 bg-current transition-transform duration-300"
-              style={{
-                transform: open ? "translateY(-3.5px) rotate(-45deg)" : "none",
-              }}
-            />
+            <span className="font-mono text-xs uppercase text-[#19A88F]">
+              {mobileOpen ? "[CLOSE]" : "[MENU]"}
+            </span>
           </button>
         </div>
-      </nav>
+      </header>
 
-      {/* Clean Full-Screen Mobile Navigation */}
-      <div
-        className={`fixed inset-0 z-40 flex flex-col lg:hidden bg-[#080909] px-6 pt-24 pb-12 transition-opacity duration-300 ${
-          open
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-        aria-hidden={!open}
-      >
-        <div className="font-mono text-xs uppercase tracking-[0.16em] text-[#19A88F] mb-6">
-          Navigation Index
-        </div>
+      {/* Mobile Full-Screen Navigation Overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 top-16 z-30 bg-[#050706] p-8 flex flex-col justify-between lg:hidden overflow-y-auto">
+          <div className="space-y-6">
+            <div className="font-mono text-xs text-[#19A88F] uppercase tracking-wider pb-2 border-b border-[#15221c]">
+              NAVIGATION INDEX
+            </div>
+            <ul className="space-y-4">
+              {NAV_ITEMS.map((item) => {
+                const isActive = activeSection === item.id
+                return (
+                  <li key={item.label}>
+                    <button
+                      onClick={() => handleNavClick(item)}
+                      className={`text-xl font-bold tracking-tight uppercase flex items-center justify-between w-full text-left cursor-pointer ${
+                        isActive
+                          ? "text-[#35D6B3]"
+                          : "text-[#A5AEA9] hover:text-[#F2F4F2]"
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      <span className="font-mono text-xs text-[#68736E]">
+                        {isActive ? "●" : "→"}
+                      </span>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
 
-        <div className="flex flex-col divide-y divide-[#242826]">
-          {NAV_ITEMS.map((item, idx) => (
-            <button
-              key={item.label}
-              onClick={() => handleNavClick(item.anchor, item.route)}
-              className="py-4 text-left flex items-baseline justify-between text-2xl font-bold text-[#F2F2F2] hover:text-[#19A88F] transition-colors"
-            >
-              <span>{item.label}</span>
-              <span className="font-mono text-xs text-[#777D7A]">
-                {String(idx + 1).padStart(2, "0")} →
-              </span>
-            </button>
-          ))}
+          <div className="pt-8 border-t border-[#15221c] font-mono text-xs text-[#68736E] space-y-2">
+            <div>CRISPR · IIIT NAGPUR</div>
+            <div className="text-[#19A88F]">21.1°N 79.0°E</div>
+          </div>
         </div>
-
-        <div className="mt-auto pt-8 border-t border-[#242826] flex items-center justify-between font-mono text-xs text-[#777D7A]">
-          <span className="text-[#19A88F]">● CRISPR Gateway Active</span>
-          <span>IIIT Nagpur</span>
-        </div>
-      </div>
+      )}
     </>
   )
 }
