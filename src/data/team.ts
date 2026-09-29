@@ -57,7 +57,7 @@ export const team: TeamMember[] = [
       "Shapes product roadmaps, user experience architecture, and technical requirement specifications for campus tools.",
   },
   {
-    name: "Harshit",
+    name: "Harshit Soni",
     role: "Head of Innovation",
     image: "/photos/Harshit_Soni.jpg",
     level: 3,
