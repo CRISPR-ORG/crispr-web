@@ -102,7 +102,7 @@ export default function AboutSection() {
 
             <div className="pt-2 flex flex-wrap items-center gap-6">
               <ArrowLink to="/products">Inspect shipped systems</ArrowLink>
-              <ArrowLink to="/team">Meet the contributors</ArrowLink>
+              <ArrowLink to="/#team">Meet the contributors</ArrowLink>
             </div>
           </div>
 

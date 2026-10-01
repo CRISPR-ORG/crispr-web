@@ -176,7 +176,7 @@ export default function EventsDemoDays() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-[#15221c] flex items-center justify-between">
+            <div className="pt-4 border-t border-[#15221c] flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
               <Button to="/events" variant="primary" arrow>
                 View full events archive
               </Button>

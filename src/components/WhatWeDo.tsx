@@ -129,7 +129,7 @@ const INITIATIVES: InitiativePanel[] = [
       { label: "Knowledge Handover", value: "100%" },
     ],
     actionLabel: "Meet the contributors",
-    actionUrl: "/team",
+    actionUrl: "/#team",
   },
   {
     id: "innovation",

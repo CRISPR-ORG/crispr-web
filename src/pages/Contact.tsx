@@ -250,7 +250,7 @@ export default function Contact() {
                   ))}
                 </div>
                 <div className="mt-8">
-                  <ArrowLink to="/team">
+                  <ArrowLink to="/#team">
                     Rather talk to a person? Meet the team
                   </ArrowLink>
                 </div>

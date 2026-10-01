@@ -115,7 +115,7 @@ export default function Alumni() {
               Every one of them left something running. That&apos;s the only
               requirement.
             </p>
-            <ArrowLink to="/team">Meet the current team</ArrowLink>
+            <ArrowLink to="/#team">Meet the current team</ArrowLink>
           </div>
         </Shell>
       </section>

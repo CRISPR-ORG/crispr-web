@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Shell, SectionLabel, ArrowLink, Frame } from "./ui"
+import { Shell, SectionLabel, Frame } from "./ui"
 import { team, TeamMember } from "../data/team"
 
 export default function TeamSection() {
@@ -98,11 +98,6 @@ export default function TeamSection() {
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             {/* Left Column: Large Editorial Focus Canvas */}
             <div className="lg:col-span-5 bg-[#0A0F0D] border border-[#15221c] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
-              {/* Subtle architectural background indicator */}
-              <div className="absolute top-4 right-4 font-mono text-5xl font-black text-[#15221c] select-none pointer-events-none">
-                0{activeMember.level}
-              </div>
-
               <div>
                 <div className="flex items-center justify-between font-mono text-[10px] text-[#68736E] uppercase pb-3 border-b border-[#15221c] mb-6">
                   <span className="text-[#35D6B3] font-semibold">
@@ -180,16 +175,6 @@ export default function TeamSection() {
                       }`}
                     >
                       <div className="flex items-start sm:items-center gap-4">
-                        <span
-                          className={`font-mono text-xs tabular-nums ${
-                            isSelected
-                              ? "text-[#35D6B3] font-bold"
-                              : "text-[#68736E]"
-                          }`}
-                        >
-                          {String(idx + 1).padStart(2, "0")}
-                        </span>
-
                         <div>
                           <h4
                             className={`text-lg sm:text-xl font-bold tracking-tight transition-colors ${
@@ -227,7 +212,6 @@ export default function TeamSection() {
                 <span>
                   Hover or tap any contributor to inspect full profile
                 </span>
-                <ArrowLink to="/team">Complete Directory</ArrowLink>
               </div>
             </div>
           </div>
@@ -241,7 +225,6 @@ export default function TeamSection() {
               >
                 <div>
                   <div className="font-mono text-[10px] text-[#68736E] uppercase tracking-widest pb-3 border-b border-[#15221c]/60 flex items-center justify-between">
-                    <span>INDEX // {String(idx + 1).padStart(2, "0")}</span>
                     <span className="text-[#35D6B3]">
                       LEVEL 0{member.level}
                     </span>
@@ -294,11 +277,6 @@ export default function TeamSection() {
           </div>
         )}
 
-        <div className="mt-12 text-center">
-          <ArrowLink to="/team">
-            View complete organizational roster & alumni connections
-          </ArrowLink>
-        </div>
       </Shell>
     </section>
   )
